@@ -22,8 +22,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   const isActive = (path: string) => {
-    if (path === '/') return pathname === '/';
-    return pathname === path || pathname.startsWith(path + '/');
+    return path === '/' ? pathname === '/' : pathname === path;
   };
 
   const renderNav = (routes: AppRoute[]) => (
