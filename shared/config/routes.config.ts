@@ -46,8 +46,8 @@ export const APP_ROUTES: AppRoute[] = [
     showInSidebar: true,
     children: [
       {
-        name: 'Test',
-        path: '/settings/test',
+        name: 'Profile',
+        path: '/settings/profile',
         auth: true,
         showInSidebar: true,
       },
