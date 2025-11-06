@@ -1,3 +1,4 @@
+import { ROUTES } from '@/shared/config/routes.config';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import {
@@ -14,8 +15,9 @@ import {
   FieldLabel,
 } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
+import Link from 'next/link';
 
-export function LoginForm({
+export default function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
@@ -58,7 +60,8 @@ export function LoginForm({
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account?{' '}
+                  <Link href={`${ROUTES.AUTH}?mode=signup`}>Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

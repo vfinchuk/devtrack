@@ -1,4 +1,4 @@
-import { BarChart3, Building2, LayoutDashboard, LogIn, Settings, UserPlus } from 'lucide-react';
+import { BarChart3, Building2, LayoutDashboard, Settings } from 'lucide-react';
 
 export type AppRoute = {
   name: string;
@@ -11,43 +11,57 @@ export type AppRoute = {
   parent?: string;
 };
 
+export const ROUTES = {
+  AUTH: '/auth',
+
+  DASHBOARD: '/',
+  COMPANIES: '/companies',
+  ANALYTICS: '/analytics',
+
+  SETTINGS: '/settings',
+  SETTINGS_PROFILE: '/settings/profile',
+} as const;
+
 export const APP_ROUTES: AppRoute[] = [
-  // ---- Public ----
-  { name: 'Sign In', path: '/sign-in', icon: LogIn, auth: false, showInSidebar: false },
-  { name: 'Sign Up', path: '/sign-up', icon: UserPlus, auth: false, showInSidebar: false },
+  {
+    name: 'Authentication',
+    path: ROUTES.AUTH,
+    auth: false,
+    showInSidebar: false,
+  },
 
   // ---- Private ----
   {
     name: 'Dashboard',
-    path: '/',
+    path: ROUTES.DASHBOARD,
     icon: LayoutDashboard,
     auth: true,
     showInSidebar: true,
   },
   {
     name: 'Companies',
-    path: '/companies',
+    path: ROUTES.COMPANIES,
     icon: Building2,
     auth: true,
     showInSidebar: true,
   },
   {
     name: 'Analytics',
-    path: '/analytics',
+    path: ROUTES.ANALYTICS,
     icon: BarChart3,
     auth: true,
     showInSidebar: true,
   },
   {
     name: 'Settings',
-    path: '/settings',
+    path: ROUTES.SETTINGS,
     icon: Settings,
     auth: true,
     showInSidebar: true,
     children: [
       {
         name: 'Profile',
-        path: '/settings/profile',
+        path: ROUTES.SETTINGS_PROFILE,
         auth: true,
         showInSidebar: true,
       },

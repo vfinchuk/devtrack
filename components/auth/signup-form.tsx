@@ -1,3 +1,7 @@
+'use client';
+
+import { signup } from '@/app/auth/actions/auth-actions';
+import { ROUTES } from '@/shared/config/routes.config';
 import { Button } from '@/shared/ui/button';
 import {
   Card,
@@ -9,12 +13,31 @@ import {
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
+import type { SignupState } from '@/types/auth';
+import Link from 'next/link';
+import { useActionState } from 'react';
 
-export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+const initialState: SignupState = {};
+
+export default function SignupForm(props: React.ComponentProps<typeof Card>) {
+  const [formState, formAction, isPending] = useActionState<
+    SignupState,
+    FormData
+  >(signup, initialState);
+
+  const hasErr = (k: keyof NonNullable<SignupState['errors']>) =>
+    (formState.errors?.[k]?.length ?? 0) > 0;
+
+  const renderErrors = (k: keyof NonNullable<SignupState['errors']>) =>
+    formState.errors?.[k]?.map((msg, i) => (
+      <FieldError key={i}>{msg}</FieldError>
+    ));
+
   return (
     <Card {...props}>
       <CardHeader>
@@ -23,48 +46,81 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           Enter your information below to create your account
         </CardDescription>
       </CardHeader>
+
       <CardContent>
-        <form>
+        {formState.message && (
+          <p role="status" className="mb-4 text-sm text-destructive">
+            {formState.message}
+          </p>
+        )}
+
+        <form action={formAction}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="John Doe"
+                required
+                aria-invalid={hasErr('name') || undefined}
+                defaultValue={formState.values?.name || ''}
+              />
+              {renderErrors('name')}
             </Field>
+
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
                 required
+                aria-invalid={hasErr('email') || undefined}
+                defaultValue={formState.values?.email || ''}
               />
-              <FieldDescription>
-                We&apos;ll use this to contact you. We will not share your email
-                with anyone else.
-              </FieldDescription>
+              {renderErrors('email')}
             </Field>
+
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input id="password" type="password" required />
-              <FieldDescription>
-                Must be at least 8 characters long.
-              </FieldDescription>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                aria-invalid={hasErr('password') || undefined}
+              />
+              {renderErrors('password')}
             </Field>
+
             <Field>
               <FieldLabel htmlFor="confirm-password">
                 Confirm Password
               </FieldLabel>
-              <Input id="confirm-password" type="password" required />
-              <FieldDescription>Please confirm your password.</FieldDescription>
+              <Input
+                id="confirm-password"
+                name="confirm-password"
+                type="password"
+                required
+                aria-invalid={hasErr('confirmPassword') || undefined}
+              />
+              {renderErrors('confirmPassword')}
             </Field>
+
             <FieldGroup>
               <Field>
-                <Button type="submit">Create Account</Button>
-                <Button variant="outline" type="button">
-                  Sign up with Google
+                <Button disabled={isPending}>
+                  {isPending ? 'Creating…' : 'Create Account'}
                 </Button>
+                {/* <Button variant="outline" type="button">
+                  Sign up with Google
+                </Button> */}
                 <FieldDescription className="px-6 text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Already have an account?{' '}
+                  <Link href={`${ROUTES.AUTH}?mode=login`}>Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
