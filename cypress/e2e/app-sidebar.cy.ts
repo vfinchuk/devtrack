@@ -1,11 +1,13 @@
-import { APP_ROUTES, AppRoute } from '../../shared/config/routes.config';
+import { APP_ROUTES, AppRoute } from '../../src/shared/config/routes.config';
 
 describe('Sidebar navigation', () => {
-  const visibleTopLevel = (): AppRoute[] => APP_ROUTES.filter((r) => r.auth && r.showInSidebar);
+  const visibleTopLevel = (): AppRoute[] =>
+    APP_ROUTES.filter((r) => r.auth && r.showInSidebar);
 
-  // 🔹 Хелпер: дістає всі дочірні елементи з тих, що показуються в сайдбарі
   const visibleChildren = (): AppRoute[] =>
-    visibleTopLevel().flatMap((r) => r.children?.filter((c) => c.showInSidebar !== false) ?? []);
+    visibleTopLevel().flatMap(
+      (r) => r.children?.filter((c) => c.showInSidebar !== false) ?? [],
+    );
 
   beforeEach(() => {
     cy.visit('/');
@@ -34,7 +36,11 @@ describe('Sidebar navigation', () => {
       const root = visibleTopLevel().find((r) => r.path === '/');
 
       if (root) {
-        cy.findByRole('link', { name: root.name }).should('have.attr', 'aria-current', 'page');
+        cy.findByRole('link', { name: root.name }).should(
+          'have.attr',
+          'aria-current',
+          'page',
+        );
       }
 
       cy.get('a[aria-current="page"]').should('have.length', 1);
@@ -45,17 +51,21 @@ describe('Sidebar navigation', () => {
     const tops = visibleTopLevel();
 
     tops.forEach((route) => {
-      cy.get('[data-slot="sidebar"]').findByRole('link', { name: route.name }).click();
+      cy.get('[data-slot="sidebar"]')
+        .findByRole('link', { name: route.name })
+        .click();
 
       cy.location('pathname', { timeout: 1000 }).should((pathname) => {
         if (route.path === '/') {
           expect(pathname).to.eq('/');
         } else {
-          expect(pathname === route.path || pathname.startsWith(route.path + '/')).to.be.true;
+          expect(
+            pathname === route.path || pathname.startsWith(route.path + '/'),
+          ).to.be.true;
         }
       });
 
-      //   cy.get('[data-slot="sidebar"] a[aria-test-current="page"]')
+      //   cy.get('[data-slot="sidebar"] a[aria-current="page"]')
       //     .should('have.length', 1)
       //     .and(($a) => {
       //       expect($a.text().trim()).to.eq(route.name);
@@ -67,7 +77,9 @@ describe('Sidebar navigation', () => {
     visibleTopLevel()
       .filter((r) => (r.children?.length ?? 0) > 0)
       .forEach((parent) => {
-        const children = parent.children!.filter((c) => c.showInSidebar !== false);
+        const children = parent.children!.filter(
+          (c) => c.showInSidebar !== false,
+        );
 
         children.forEach((child) => {
           cy.visit('/');

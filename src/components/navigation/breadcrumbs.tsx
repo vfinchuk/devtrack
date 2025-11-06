@@ -35,7 +35,8 @@ const titleFromSegment = (seg: string) =>
 
 export default function Breadcrumbs() {
   const rawPath = usePathname() || '/';
-  const pathname = rawPath !== '/' && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
+  const pathname =
+    rawPath !== '/' && rawPath.endsWith('/') ? rawPath.slice(0, -1) : rawPath;
 
   const dashboardRoute = ROUTE_MAP.get('/');
 
@@ -53,7 +54,9 @@ export default function Breadcrumbs() {
 
   const crumbs = useMemo(() => {
     const segments = pathname.split('/').filter(Boolean);
-    const paths = segments.map((_, i) => '/' + segments.slice(0, i + 1).join('/'));
+    const paths = segments.map(
+      (_, i) => '/' + segments.slice(0, i + 1).join('/'),
+    );
 
     return paths
       .map(

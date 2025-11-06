@@ -6,7 +6,11 @@ import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
 import { ModeToggle } from '@/shared/theme/mode-toggle';
 import { ThemeProvider } from '@/shared/theme/theme-provider';
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/ui/sidebar';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/shared/ui/sidebar';
 // import { StoreProvider } from '@/providers/StoreProvider' // якщо використовуєш Redux
 
 export const metadata: Metadata = {
@@ -17,7 +21,11 @@ export const metadata: Metadata = {
   description: 'Developers interviews tracking application',
 };
 
-export default function PrivateLayout({ children }: { children: React.ReactNode }) {
+export default function PrivateLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     // <StoreProvider>  {/* розкоментуй, якщо є Redux */}
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -39,7 +47,11 @@ export default function PrivateLayout({ children }: { children: React.ReactNode 
             <ModeToggle /> {/* ← ось тут */}
           </header>
 
-          <main id="main" role="main" className="flex flex-1 flex-col gap-4 p-4">
+          <main
+            id="main"
+            role="main"
+            className="flex flex-1 flex-col gap-4 p-4"
+          >
             {children}
           </main>
         </SidebarInset>

@@ -10,7 +10,7 @@ export default defineConfig({
     setupFiles: './vitest.setup.ts',
     include: ['**/*.{test,spec}.{ts,tsx}'],
     alias: {
-      '@': path.resolve(__dirname, './'),
+      '@': path.resolve(__dirname, './src'),
     },
     coverage: {
       reporter: ['text', 'html'],
