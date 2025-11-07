@@ -3,7 +3,7 @@ import '../globals.css';
 
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
-import { requireUser } from '@/server/auth/require-user';
+import { requireUserId } from '@/features/auth/server/require-user';
 import { ModeToggle } from '@/shared/theme/mode-toggle';
 import { ThemeProvider } from '@/shared/theme/theme-provider';
 import {
@@ -11,7 +11,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/shared/ui/sidebar';
-// import { StoreProvider } from '@/providers/StoreProvider' // якщо використовуєш Redux
+// import { StoreProvider } from '@/providers/StoreProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +26,7 @@ export default async function PrivateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  await requireUser();
+  await requireUserId();
 
   return (
     // <StoreProvider>  {/* розкоментуй, якщо є Redux */}
@@ -46,7 +46,7 @@ export default async function PrivateLayout({
               <SidebarTrigger />
               <Breadcrumbs />
             </div>
-            <ModeToggle /> {/* ← ось тут */}
+            <ModeToggle />
           </header>
 
           <main

@@ -1,6 +1,6 @@
-import LoginForm from '@/components/auth/login-form';
-import SignupForm from '@/components/auth/signup-form';
 import { PageProps } from '@/types/page-props';
+import LoginForm from './components/login-form';
+import SignupForm from './components/signup-form';
 
 export default async function AuthPage({ searchParams }: PageProps) {
   const sp = await searchParams;

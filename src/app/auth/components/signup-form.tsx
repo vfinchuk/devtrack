@@ -1,6 +1,6 @@
 'use client';
 
-import { signup } from '@/app/auth/actions/auth-actions';
+import { signup } from '@/features/auth/actions/signup';
 import { ROUTES } from '@/shared/config/routes.config';
 import { Button } from '@/shared/ui/button';
 import {
