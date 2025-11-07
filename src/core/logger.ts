@@ -1,3 +1,5 @@
+import { env } from './env';
+
 export type LogFields = Record<string, unknown>;
 
 type LevelType = 'INFO' | 'WARNING' | 'ERROR' | 'DEBUG';
@@ -23,7 +25,7 @@ class ConsoleLogger implements Logger {
   }
 
   debug(message: string, fields: LogFields = {}): void {
-    if (process.env.NODE_ENV !== 'production') {
+    if (env.NODE_ENV !== 'production') {
       console.debug(formatLog('DEBUG', message, fields));
     }
   }

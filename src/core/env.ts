@@ -1,4 +1,4 @@
-import { EnvError, logger } from '@/core';
+import { EnvError } from '@/core';
 import { z } from 'zod';
 
 const EnvSchema = z.object({
@@ -15,7 +15,6 @@ export const env: Env = (() => {
   if (!parsed.success) {
     const errors = z.flattenError(parsed.error).fieldErrors;
 
-    logger.error('ENV validation failed', { errors });
     throw new EnvError('ENV validation failed', errors);
   }
 
