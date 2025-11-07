@@ -1,4 +1,5 @@
 import { env } from './env';
+import { prettyJSON } from './utils';
 
 export type LogFields = Record<string, unknown>;
 
@@ -36,7 +37,7 @@ function formatLog(
   message: string,
   fields: LogFields,
 ): string {
-  return JSON.stringify({
+  return prettyJSON({
     level,
     message,
     ...fields,

@@ -4,22 +4,17 @@ import { ConflictError } from '@/core';
 import {
   signUpSchema,
   type SignUpDTO,
-} from '@/features/auth/schemas/auth.schema';
+} from '@/features/auth/schemas/signup.schema';
 import { signUpService } from '@/features/auth/services/auth.service';
 import { ROUTES } from '@/shared/config/routes.config';
 import { createAuthSession } from '@/shared/lib/auth';
+import { SignupState } from '@/types/auth';
 import { redirect } from 'next/navigation';
 
-type FormState = {
-  message?: string;
-  errors?: Record<string, string[]>;
-  values?: Record<string, string>;
-};
-
 export async function signup(
-  _prev: FormState,
+  _prev: SignupState,
   formData: FormData,
-): Promise<FormState> {
+): Promise<SignupState> {
   const raw = {
     name: String(formData.get('name') ?? ''),
     email: String(formData.get('email') ?? ''),
@@ -38,7 +33,6 @@ export async function signup(
     };
   }
 
-  // Формуємо "trusted DTO" для сервісу — без confirmPassword
   const dto: SignUpDTO = {
     name: parsed.data.name,
     email: parsed.data.email,
@@ -48,19 +42,17 @@ export async function signup(
   const res = await signUpService(dto);
 
   if (!res.ok) {
-    // Мапимо доменні помилки на форму
     if (res.error instanceof ConflictError) {
       return {
         message: res.error.message,
         errors: { email: ['Email already in use'] },
-        values: { name: raw.name, email: raw.email },
+        values: { name: dto.name, email: dto.email },
       };
     }
 
-    // Fallback для інших внутрішніх помилок
     return {
       message: 'Unexpected error',
-      values: { name: raw.name, email: raw.email },
+      values: { name: dto.name, email: dto.email },
     };
   }
 

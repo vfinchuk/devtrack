@@ -14,7 +14,7 @@ import {
   type Result,
 } from '@/core';
 
-import type { SignUpDTO } from '@/features/auth/schemas/auth.schema';
+import type { SignUpDTO } from '@/features/auth/schemas/signup.schema';
 
 export async function signUpService(
   input: SignUpDTO,
