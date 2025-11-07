@@ -10,8 +10,6 @@ export function proxy(req: NextRequest) {
 
   const hasSession = Boolean(req.cookies.get(SESSION_COOKIE_NAME)?.value);
 
-  console.log('hasSession', hasSession);
-
   const isProtected = PROTECTED_PATHS.some((p) => {
     return pathname === p || pathname.startsWith(p + '/');
   });

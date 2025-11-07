@@ -1,9 +1,9 @@
-// app/(private)/layout.tsx
 import type { Metadata } from 'next';
 import '../globals.css';
 
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
+import { requireUser } from '@/server/auth/require-user';
 import { ModeToggle } from '@/shared/theme/mode-toggle';
 import { ThemeProvider } from '@/shared/theme/theme-provider';
 import {
@@ -21,11 +21,13 @@ export const metadata: Metadata = {
   description: 'Developers interviews tracking application',
 };
 
-export default function PrivateLayout({
+export default async function PrivateLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await requireUser();
+
   return (
     // <StoreProvider>  {/* розкоментуй, якщо є Redux */}
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
