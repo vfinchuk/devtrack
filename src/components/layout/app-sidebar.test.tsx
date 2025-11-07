@@ -1,7 +1,7 @@
 import { APP_ROUTES } from '@/shared/config/routes.config';
 import { renderWithSidebar } from '@/shared/test/test-utils';
 import { screen } from '@testing-library/react';
-import { vi, type Mock } from 'vitest';
+import { describe, expect, it, vi, type Mock } from 'vitest';
 import { AppSidebar } from './app-sidebar';
 
 vi.mock('next/navigation', () => ({

@@ -1,4 +1,4 @@
-import { EnvError } from '@/core';
+import { EnvError } from '@/core/errors';
 import { z } from 'zod';
 
 const EnvSchema = z.object({
@@ -12,6 +12,7 @@ export type Env = z.infer<typeof EnvSchema>;
 
 export const env: Env = (() => {
   const parsed = EnvSchema.safeParse(process.env);
+
   if (!parsed.success) {
     const errors = z.flattenError(parsed.error).fieldErrors;
 

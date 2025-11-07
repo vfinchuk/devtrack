@@ -4,14 +4,16 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './vitest.setup.ts',
-    include: ['**/*.{test,spec}.{ts,tsx}'],
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+    include: ['**/*.{test,spec}.{js,jsx,ts,tsx}'],
     coverage: {
       reporter: ['text', 'html'],
     },

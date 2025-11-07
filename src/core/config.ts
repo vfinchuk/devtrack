@@ -1,4 +1,4 @@
-import { env } from '@/core';
+import { env } from '@/core/env';
 
 export const config = {
   appName: env.PUBLIC_APP_NAME,

@@ -1,5 +1,4 @@
-import { env } from './env';
-import { prettyJSON } from './utils';
+import { prettyJSON } from '@/core/utils';
 
 export type LogFields = Record<string, unknown>;
 
@@ -26,7 +25,7 @@ class ConsoleLogger implements Logger {
   }
 
   debug(message: string, fields: LogFields = {}): void {
-    if (env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       console.debug(formatLog('DEBUG', message, fields));
     }
   }

@@ -1,5 +1,4 @@
 // src/core/events.ts
-import { logger } from '@/core/logger';
 
 /**
  * Map your domain events to their payload types.
@@ -87,7 +86,7 @@ export class EventBus<Events extends EventsMap> {
       try {
         await h(payload);
       } catch (e) {
-        logger.error('Event handler failed', {
+        console.error('Event handler failed', {
           event: String(event),
           error: e,
         });

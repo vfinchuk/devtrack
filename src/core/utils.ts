@@ -1,4 +1,5 @@
-import { InternalError, logger } from '@/core';
+import { InternalError } from '@/core/errors';
+import { logger } from '@/core/logger';
 
 export const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
