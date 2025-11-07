@@ -28,3 +28,11 @@ export async function retry<T>(
   }
   throw last;
 }
+
+export function prettyJson(input: unknown): string {
+  try {
+    return JSON.stringify(input, null, 2);
+  } catch {
+    return String(input);
+  }
+}

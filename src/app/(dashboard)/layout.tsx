@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '../globals.css';
 
+import LogoutButton from '@/components/auth/logout-button';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
 import { requireUserId } from '@/features/auth/server/require-user';
@@ -46,7 +47,10 @@ export default async function PrivateLayout({
               <SidebarTrigger />
               <Breadcrumbs />
             </div>
-            <ModeToggle />
+            <div className="flex items-center gap-2">
+              <ModeToggle />
+              <LogoutButton />
+            </div>
           </header>
 
           <main

@@ -46,8 +46,9 @@ export async function createAuthSession(userId: string) {
   );
 }
 
-export async function verifyAuth() {
-  const sessionCookie = (await cookies()).get(lucia.sessionCookieName);
+export async function verifyAuthSession() {
+  const cookiesApi = await cookies();
+  const sessionCookie = cookiesApi.get(lucia.sessionCookieName);
 
   if (!sessionCookie) {
     return {
@@ -70,7 +71,9 @@ export async function verifyAuth() {
   try {
     if (result.session && result.session.fresh) {
       const sessionCookie = lucia.createSessionCookie(result.session.id);
-      (await cookies()).set(
+      const cookiesApi = await cookies();
+
+      cookiesApi.set(
         sessionCookie.name,
         sessionCookie.value,
         sessionCookie.attributes,
@@ -78,32 +81,24 @@ export async function verifyAuth() {
     }
 
     if (!result.session) {
-      const sessionCookie = lucia.createBlankSessionCookie();
-      (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
+      const blank = lucia.createBlankSessionCookie();
+      const cookiesApi = await cookies();
+
+      cookiesApi.set(blank.name, blank.value, blank.attributes);
     }
   } catch {}
 
   return result;
 }
 
-export async function destroySession() {
-  const { session } = await verifyAuth();
-  if (!session) {
-    return {
-      error: 'Unauthorized!',
-    };
+export async function destroyAuthSession() {
+  const { session } = await verifyAuthSession();
+
+  if (session) {
+    await lucia.invalidateSession(session.id);
   }
 
-  await lucia.invalidateSession(session.id);
-
-  const sessionCookie = lucia.createBlankSessionCookie();
-  (await cookies()).set(
-    sessionCookie.name,
-    sessionCookie.value,
-    sessionCookie.attributes,
-  );
+  const blank = lucia.createBlankSessionCookie();
+  const cookiesApi = await cookies();
+  cookiesApi.set(blank.name, blank.value, blank.attributes);
 }

@@ -10,6 +10,7 @@ export type DomainEvents = {
   // "company.updated": { id: string; changes: Record<string, unknown> };
   'user.signedUp': { userId: string; email: string };
   'user.loggedIn': { userId: string };
+  'user.loggedOut': { userId: string };
 };
 
 type Handler<P> = (payload: P) => void | Promise<void>;

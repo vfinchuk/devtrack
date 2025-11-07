@@ -2,21 +2,21 @@
 
 import { logger } from '@/core/logger';
 import { ROUTES } from '@/shared/config/routes.config';
-import { verifyAuth } from '@/shared/lib/auth';
+import { verifyAuthSession } from '@/shared/lib/auth';
 import { redirect } from 'next/navigation';
 
 export async function requireUser() {
   let session;
 
   try {
-    session = await verifyAuth();
+    session = await verifyAuthSession();
   } catch (e) {
-    logger.error('verifyAuth failed', { error: e });
+    logger.error('Verify Auth failed', { error: e });
+
     redirect(ROUTES.AUTH);
   }
 
   if (!session?.user) {
-    logger.warn('requireUser: no user, redirecting to auth');
     redirect(ROUTES.AUTH);
   }
 

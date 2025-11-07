@@ -4,7 +4,7 @@ import { z } from 'zod';
 const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
   DATABASE_URL: z.url(),
-  SESSION_SECRET: z.string().min(16),
+  // SESSION_SECRET: z.string().min(16),
   PUBLIC_APP_NAME: z.string().default('DevTrack'),
 });
 

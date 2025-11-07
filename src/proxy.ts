@@ -8,25 +8,17 @@ const PROTECTED_PATHS = collectProtectedPaths();
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const hasSession = Boolean(req.cookies.get(SESSION_COOKIE_NAME)?.value);
+  const sessionCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value ?? '';
+  const hasSessionCookie = Boolean(sessionCookie);
 
-  const isProtected = PROTECTED_PATHS.some((p) => {
-    return pathname === p || pathname.startsWith(p + '/');
-  });
+  const isProtected = PROTECTED_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(p + '/'),
+  );
 
-  const isAuthPage = pathname.startsWith(ROUTES.AUTH);
-
-  if (isProtected && !hasSession) {
-    const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = ROUTES.AUTH;
-    return NextResponse.redirect(redirectUrl);
-  }
-
-  if (isAuthPage && hasSession) {
-    const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = ROUTES.DASHBOARD;
-    redirectUrl.search = '';
-    return NextResponse.redirect(redirectUrl);
+  if (isProtected && !hasSessionCookie) {
+    const url = req.nextUrl.clone();
+    url.pathname = ROUTES.AUTH;
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();

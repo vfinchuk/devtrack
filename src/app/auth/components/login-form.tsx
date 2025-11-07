@@ -55,7 +55,7 @@ export default function LoginForm({
                 <Input id="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
+                <Button>Login</Button>
                 <Button variant="outline" type="button">
                   Login with Google
                 </Button>
