@@ -14,6 +14,9 @@ import {
 } from '@/shared/ui/sidebar';
 // import { StoreProvider } from '@/providers/StoreProvider'
 
+export const revalidate = 0;
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: {
     default: 'DevTrack',
