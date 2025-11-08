@@ -17,17 +17,19 @@ export async function retry<T>(
   fn: () => Promise<T>,
   attempts = 3,
   delayMs = 0,
-) {
-  let last;
+): Promise<T> {
+  let last: unknown;
   for (let i = 0; i < attempts; i++) {
     try {
       return await fn();
     } catch (e) {
       last = e;
-      if (delayMs) await wait(delayMs);
+      if (delayMs > 0) {
+        await wait(delayMs);
+      }
     }
   }
-  throw last;
+  throw last instanceof Error ? last : new Error(String(last));
 }
 
 export function prettyJSON(input: unknown): string {
