@@ -1,4 +1,4 @@
-import { prisma } from '@/server/prisma';
+import { prisma } from '@/server/db/prisma';
 import { PrismaAdapter } from '@lucia-auth/adapter-prisma';
 import { User } from '@prisma/client';
 import { Lucia } from 'lucia';

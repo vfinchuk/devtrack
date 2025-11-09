@@ -1,7 +1,7 @@
 'use server';
 
 import { hashUserPassword } from '@/features/auth/server/password-hash';
-import { prisma } from '@/server/prisma';
+import { prisma } from '@/server/db/prisma';
 import { Prisma } from '@prisma/client';
 
 import {
