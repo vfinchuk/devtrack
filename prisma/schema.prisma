@@ -16,6 +16,8 @@ model User {
 
   sessions  Session[]
   keys      Key[]
+
+  companies Company[]
 }
 
 model Session {
@@ -33,4 +35,15 @@ model Key {
   primary        Boolean  @default(false)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+
+  @@index([ownerId])
 }
