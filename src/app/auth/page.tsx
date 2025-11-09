@@ -1,5 +1,5 @@
+import { verifyAuthSession } from '@/features/auth/services/auth';
 import { ROUTES } from '@/shared/config/routes.config';
-import { verifyAuthSession } from '@/shared/lib/auth';
 import { PageProps } from '@/types/page-props';
 import { redirect } from 'next/navigation';
 import LoginForm from './components/login-form';

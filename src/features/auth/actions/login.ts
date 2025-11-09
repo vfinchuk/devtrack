@@ -8,7 +8,7 @@ import { LoginDTO, loginSchema } from '../schemas/login.schema';
 import { loginService } from '../services/login.service';
 
 import { ConflictError, events, logger } from '@/core';
-import { createAuthSession } from '@/shared/lib/auth';
+import { createAuthSession } from '@/features/auth/services/auth';
 
 export async function login(
   _prev: LoginState,

@@ -1,8 +1,8 @@
+import { prisma } from '@/server/prisma';
 import { PrismaAdapter } from '@lucia-auth/adapter-prisma';
 import { User } from '@prisma/client';
 import { Lucia } from 'lucia';
 import { cookies } from 'next/headers';
-import { prisma } from './prisma';
 
 declare module 'lucia' {
   interface Register {
