@@ -1,4 +1,4 @@
-import { verifyAuthSession } from '@/features/auth/services/auth';
+import { verifyAuthSession } from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
 import { PageProps } from '@/types/page-props';
 import { redirect } from 'next/navigation';

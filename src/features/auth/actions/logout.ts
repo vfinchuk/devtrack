@@ -4,7 +4,7 @@ import { events, logger } from '@/core';
 import {
   destroyAuthSession,
   verifyAuthSession,
-} from '@/features/auth/services/auth';
+} from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
 import { redirect } from 'next/navigation';
 

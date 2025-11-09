@@ -5,7 +5,7 @@ import {
   signUpSchema,
   type SignUpDTO,
 } from '@/features/auth/schemas/signup.schema';
-import { createAuthSession } from '@/features/auth/services/auth';
+import { createAuthSession } from '@/features/auth/server/auth';
 import { signUpService } from '@/features/auth/services/auth.service';
 import { ROUTES } from '@/shared/config/routes.config';
 import { SignupState } from '@/types/auth';

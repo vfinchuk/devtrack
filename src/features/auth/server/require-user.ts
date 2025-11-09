@@ -1,7 +1,7 @@
 'use server';
 
 import { logger } from '@/core/logger';
-import { verifyAuthSession } from '@/features/auth/services/auth';
+import { verifyAuthSession } from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
 import { redirect } from 'next/navigation';
 
