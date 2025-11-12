@@ -1,5 +1,8 @@
+// src/features/companies/services/companies.service.ts
+import { ConflictError, InternalError } from '@/core/errors';
+import { err, ok, Result } from '@/core/result';
 import { prisma } from '@/server/db/prisma';
-import 'server-only';
+import { Prisma } from '@prisma/client';
 
 export async function getCompaniesByOwner(ownerId: string) {
   return prisma.company.findMany({
@@ -8,25 +11,61 @@ export async function getCompaniesByOwner(ownerId: string) {
   });
 }
 
-export async function createCompanyRaw(ownerId: string, name: string) {
-  return prisma.company.create({
-    data: { ownerId, name },
-  });
+export async function createCompanyRaw(
+  ownerId: string,
+  name: string,
+): Promise<Result<{ id: string }, ConflictError | InternalError>> {
+  try {
+    const created = await prisma.company.create({
+      data: { ownerId, name },
+      select: { id: true },
+    });
+    return ok(created);
+  } catch (e) {
+    if (
+      e instanceof Prisma.PrismaClientKnownRequestError &&
+      e.code === 'P2002'
+    ) {
+      return err(new ConflictError('Company name already exists', e));
+    }
+    return err(new InternalError('Failed to create company', e));
+  }
 }
 
 export async function updateCompanyRaw(
   ownerId: string,
   id: string,
   name: string,
-) {
-  return prisma.company.update({
-    where: { id, ownerId },
-    data: { name },
-  });
+): Promise<Result<{ id: string }, ConflictError | InternalError>> {
+  try {
+    const updated = await prisma.company.update({
+      where: { id, ownerId },
+      data: { name },
+      select: { id: true },
+    });
+    return ok(updated);
+  } catch (e) {
+    if (
+      e instanceof Prisma.PrismaClientKnownRequestError &&
+      e.code === 'P2002'
+    ) {
+      return err(new ConflictError('Company name already exists', e));
+    }
+    return err(new InternalError('Failed to update company', e));
+  }
 }
 
-export async function deleteCompanyRaw(ownerId: string, id: string) {
-  return prisma.company.delete({
-    where: { id, ownerId },
-  });
+export async function deleteCompanyRaw(
+  ownerId: string,
+  id: string,
+): Promise<Result<{ id: string }, InternalError>> {
+  try {
+    const deleted = await prisma.company.delete({
+      where: { id, ownerId },
+      select: { id: true },
+    });
+    return ok(deleted);
+  } catch (e) {
+    return err(new InternalError('Failed to delete company', e));
+  }
 }
