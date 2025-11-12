@@ -18,25 +18,23 @@ import {
   FieldLabel,
 } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
-import type { SignupState } from '@/types/auth';
 import Link from 'next/link';
 import { useActionState } from 'react';
 
-const initialState: SignupState = {};
+import { hasFieldError } from '@/shared/forms/errors';
+import { FieldErrorFirst, GlobalFormError } from '@/shared/forms/form-errors';
+import type { SignupField, SignupState } from '@/types/auth';
+
+const initialState: SignupState = null;
 
 export default function SignupForm(props: React.ComponentProps<typeof Card>) {
-  const [formState, formAction, isPending] = useActionState<
-    SignupState,
-    FormData
-  >(signup, initialState);
+  const [state, formAction, isPending] = useActionState<SignupState, FormData>(
+    async (prev, fd) => signup(prev, fd),
+    initialState,
+  );
 
-  const hasErr = (k: keyof NonNullable<SignupState['errors']>) =>
-    (formState.errors?.[k]?.length ?? 0) > 0;
-
-  const renderErrors = (k: keyof NonNullable<SignupState['errors']>) =>
-    formState.errors?.[k]?.map((msg, i) => (
-      <FieldError key={i}>{msg}</FieldError>
-    ));
+  const isInvalid = (k: SignupField) =>
+    !state?.ok && hasFieldError(state?.error, k);
 
   return (
     <Card {...props}>
@@ -48,13 +46,18 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
       </CardHeader>
 
       <CardContent>
-        {formState.message && (
-          <p role="status" className="mb-4 text-sm text-destructive">
-            {formState.message}
-          </p>
+        {!state?.ok && state?.error && (
+          <GlobalFormError
+            error={state.error}
+            Component={({ children }) => (
+              <p role="status" className="mb-4 text-sm text-destructive">
+                {children}
+              </p>
+            )}
+          />
         )}
 
-        <form action={formAction}>
+        <form action={formAction} noValidate>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
@@ -64,10 +67,13 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
                 type="text"
                 placeholder="John Doe"
                 required
-                aria-invalid={hasErr('name') || undefined}
-                defaultValue={formState.values?.name || ''}
+                aria-invalid={isInvalid('name') || undefined}
               />
-              {renderErrors('name')}
+              <FieldErrorFirst
+                error={state?.ok === false ? state.error : undefined}
+                field="name"
+                Component={FieldError}
+              />
             </Field>
 
             <Field>
@@ -78,10 +84,13 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
                 type="email"
                 placeholder="m@example.com"
                 required
-                aria-invalid={hasErr('email') || undefined}
-                defaultValue={formState.values?.email || ''}
+                aria-invalid={isInvalid('email') || undefined}
               />
-              {renderErrors('email')}
+              <FieldErrorFirst
+                error={state?.ok === false ? state.error : undefined}
+                field="email"
+                Component={FieldError}
+              />
             </Field>
 
             <Field>
@@ -91,9 +100,13 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
                 name="password"
                 type="password"
                 required
-                aria-invalid={hasErr('password') || undefined}
+                aria-invalid={isInvalid('password') || undefined}
               />
-              {renderErrors('password')}
+              <FieldErrorFirst
+                error={state?.ok === false ? state.error : undefined}
+                field="password"
+                Component={FieldError}
+              />
             </Field>
 
             <Field>
@@ -105,25 +118,25 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
                 name="confirm-password"
                 type="password"
                 required
-                aria-invalid={hasErr('confirmPassword') || undefined}
+                aria-invalid={isInvalid('confirmPassword') || undefined}
               />
-              {renderErrors('confirmPassword')}
+              <FieldErrorFirst
+                error={state?.ok === false ? state.error : undefined}
+                field="confirmPassword"
+                Component={FieldError}
+              />
             </Field>
 
-            <FieldGroup>
-              <Field>
-                <Button disabled={isPending}>
-                  {isPending ? 'Creating…' : 'Create Account'}
-                </Button>
-                {/* <Button variant="outline" type="button">
-                  Sign up with Google
-                </Button> */}
-                <FieldDescription className="px-6 text-center">
-                  Already have an account?{' '}
-                  <Link href={`${ROUTES.AUTH}?mode=login`}>Sign in</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
+            <Field>
+              <Button disabled={isPending}>
+                {isPending ? 'Creating…' : 'Create Account'}
+              </Button>
+
+              <FieldDescription className="px-6 text-center">
+                Already have an account?{' '}
+                <Link href={`${ROUTES.AUTH}?mode=login`}>Sign in</Link>
+              </FieldDescription>
+            </Field>
           </FieldGroup>
         </form>
       </CardContent>

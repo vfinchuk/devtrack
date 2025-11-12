@@ -1,9 +1,9 @@
-import type { FormState } from './form';
+import type { FormResult } from '@/core/result';
 
-export type SignupField = 'name' | 'email' | 'password' | 'confirmPassword';
-export type SignupValues = { name?: string; email?: string };
-export type SignupState = FormState<SignupField, SignupValues>;
-
+/* ---------- LOGIN ---------- */
 export type LoginField = 'email' | 'password';
-export type LoginValues = { email?: string; password?: string };
-export type LoginState = FormState<LoginField, LoginValues>;
+export type LoginState = FormResult<{ id: string }, LoginField> | null;
+
+/* ---------- SIGNUP ---------- */
+export type SignupField = 'name' | 'email' | 'password' | 'confirmPassword';
+export type SignupState = FormResult<{ id: string }, SignupField> | null;

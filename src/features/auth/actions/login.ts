@@ -1,14 +1,13 @@
 'use server';
 
-import { ROUTES } from '@/shared/config/routes.config';
-import { redirect } from 'next/navigation';
-
-import { LoginState } from '@/types/auth';
-import { LoginDTO, loginSchema } from '../schemas/login.schema';
-import { loginService } from '../services/login.service';
-
-import { ConflictError, events, logger } from '@/core';
+import { ConflictError } from '@/core/errors';
+import { fieldErrors, formError } from '@/core/result';
 import { createAuthSession } from '@/features/auth/server/auth';
+import { ROUTES } from '@/shared/config/routes.config';
+import type { LoginField, LoginState } from '@/types/auth';
+import { redirect } from 'next/navigation';
+import { loginSchema, type LoginDTO } from '../schemas/login.schema';
+import { loginService } from '../services/login.service';
 
 export async function login(
   _prev: LoginState,
@@ -20,52 +19,24 @@ export async function login(
   };
 
   const parsed = loginSchema.safeParse(raw);
-
   if (!parsed.success) {
-    const { fieldErrors } = parsed.error.flatten();
-    return {
-      message: 'Please enter valid credentials',
-      errors: fieldErrors,
-      values: { email: raw.email },
-    };
+    const fe = parsed.error.flatten().fieldErrors;
+    return fieldErrors<LoginField>({ email: fe.email, password: fe.password });
   }
 
-  const dto: LoginDTO = {
-    email: parsed.data.email,
-    password: parsed.data.password,
-  };
-
+  const dto: LoginDTO = parsed.data;
   const res = await loginService(dto);
 
   if (!res.ok) {
     if (res.error instanceof ConflictError) {
-      return {
-        errors: {
-          email: ['Invalid email or password'],
-          password: ['Invalid email or password'],
-        },
-        values: { email: dto.email },
-      };
+      return fieldErrors<LoginField>({
+        email: ['Invalid email or password'],
+        password: ['Invalid email or password'],
+      });
     }
-
-    return {
-      message: 'Unexpected error. Please try again later.',
-      values: { email: dto.email },
-    };
+    return formError('Unexpected error. Please try again later.');
   }
 
-  const user = res.value;
-
-  try {
-    await createAuthSession(user.id);
-
-    await events.emit('user.loggedIn', { userId: user.id });
-  } catch (e) {
-    logger.error('Failed to finalize login (session/events)', {
-      error: e,
-      userId: user.id,
-    });
-  }
-
+  await createAuthSession(res.value.id);
   redirect(ROUTES.DASHBOARD);
 }

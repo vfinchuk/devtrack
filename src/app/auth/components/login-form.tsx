@@ -19,46 +19,50 @@ import {
   FieldLabel,
 } from '@/shared/ui/field';
 import { Input } from '@/shared/ui/input';
-import { LoginState } from '@/types/auth';
 import Link from 'next/link';
 import { useActionState } from 'react';
 
-const initialState: LoginState = {};
+import { hasFieldError } from '@/shared/forms/errors';
+import { FieldErrorFirst, GlobalFormError } from '@/shared/forms/form-errors';
+import type { LoginField, LoginState } from '@/types/auth';
+
+const initialState: LoginState = null;
 
 export default function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
-  const [formState, formAction, isPending] = useActionState(
-    login,
+  const [state, formAction, isPending] = useActionState<LoginState, FormData>(
+    async (_prev, formData) => login(_prev, formData),
     initialState,
   );
 
-  const hasErr = (k: keyof NonNullable<LoginState['errors']>) =>
-    (formState.errors?.[k]?.length ?? 0) > 0;
-
-  const renderErrors = (k: keyof NonNullable<LoginState['errors']>) =>
-    formState.errors?.[k]?.map((msg, i) => (
-      <FieldError key={i}>{msg}</FieldError>
-    ));
+  const isInvalid = (k: LoginField) =>
+    !state?.ok && hasFieldError(state?.error, k);
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Log in to your account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your email and password to continue
           </CardDescription>
         </CardHeader>
+
         <CardContent>
-          {formState.message && (
-            <p role="status" className="mb-4 text-sm text-destructive">
-              {formState.message}
-            </p>
+          {!state?.ok && state?.error && (
+            <GlobalFormError
+              error={state.error}
+              Component={({ children }) => (
+                <p role="status" className="mb-4 text-sm text-destructive">
+                  {children}
+                </p>
+              )}
+            />
           )}
 
-          <form action={formAction}>
+          <form action={formAction} noValidate>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -68,11 +72,15 @@ export default function LoginForm({
                   type="email"
                   placeholder="m@example.com"
                   required
-                  aria-invalid={hasErr('email') || undefined}
-                  defaultValue={formState.values?.email || ''}
+                  aria-invalid={isInvalid('email') || undefined}
                 />
-                {renderErrors('email')}
+                <FieldErrorFirst
+                  error={state?.ok === false ? state.error : undefined}
+                  field="email"
+                  Component={FieldError}
+                />
               </Field>
+
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -88,17 +96,20 @@ export default function LoginForm({
                   name="password"
                   type="password"
                   required
-                  aria-invalid={hasErr('password') || undefined}
+                  aria-invalid={isInvalid('password') || undefined}
                 />
-                {renderErrors('password')}
+                <FieldErrorFirst
+                  error={state?.ok === false ? state.error : undefined}
+                  field="password"
+                  Component={FieldError}
+                />
               </Field>
+
               <Field>
                 <Button disabled={isPending}>
-                  {isPending ? 'Pending…' : 'Create Account'}
+                  {isPending ? 'Signing in…' : 'Sign in'}
                 </Button>
-                {/* <Button variant="outline" type="button">
-                  Login with Google
-                </Button> */}
+
                 <FieldDescription className="text-center">
                   Don&apos;t have an account?{' '}
                   <Link href={`${ROUTES.AUTH}?mode=signup`}>Sign up</Link>
