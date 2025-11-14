@@ -1,14 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useDialog } from '@/features/dialogs/use-dialog';
-import { hasFieldError } from '@/shared/forms/errors';
-import { FieldErrorFirst } from '@/shared/forms/form-errors';
-import { FieldError } from '@/shared/ui/form/field';
 import { Form } from '@/shared/ui/form/form';
-import { LoadingButton } from '@/shared/ui/loading-button';
+import { FormField } from '@/shared/ui/form/form-field';
+import { FormDialog } from '@/shared/ui/overlays/form-dialog';
 import type { CreateCompanyField, CreateCompanyState } from '@/types/companies';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
@@ -16,10 +11,9 @@ import { createCompany } from '../actions/create-company.action';
 
 export type AddCompanyDialogProps = { defaultName?: string };
 
-export function AddCompanyDialog(props: AddCompanyDialogProps) {
-  const { closeDialog } = useDialog();
-
+export function AddCompanyDialog({ defaultName }: AddCompanyDialogProps) {
   const router = useRouter();
+  const { closeDialog } = useDialog();
 
   const [state, formAction, pending] = useActionState<
     CreateCompanyState,
@@ -33,37 +27,33 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
     return res;
   }, null);
 
-  const isInvalid = !state?.ok && hasFieldError(state?.error, 'name');
-
   return (
-    <Form<CreateCompanyField, CreateCompanyState>
-      state={state}
-      action={formAction}
-      className="space-y-4"
+    <FormDialog
+      title="Create Company"
+      description="Add a new company to your workspace."
+      formId="add-company-form"
+      isSubmitting={pending}
+      submitLabel="Create"
+      cancelLabel="Cancel"
+      onCancel={closeDialog}
     >
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          name="name"
-          defaultValue={props.defaultName}
+      <Form<CreateCompanyField, CreateCompanyState>
+        id="add-company-form"
+        state={state}
+        action={formAction}
+        className="space-y-4"
+      >
+        <FormField<CreateCompanyField>
+          state={state}
+          field="name"
+          label="Name"
           placeholder="Acme Inc"
           required
-          aria-invalid={isInvalid || undefined}
+          inputProps={{
+            defaultValue: defaultName,
+          }}
         />
-        <FieldErrorFirst
-          error={state?.ok === false ? state.error : undefined}
-          field="name"
-          Component={FieldError}
-        />
-      </div>
-
-      <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline" onClick={() => closeDialog()}>
-          Cancel
-        </Button>
-        <LoadingButton isLoading={pending}>Create</LoadingButton>
-      </div>
-    </Form>
+      </Form>
+    </FormDialog>
   );
 }

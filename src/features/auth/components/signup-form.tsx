@@ -7,24 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { signup } from '@/features/auth/actions/signup.action';
 import { ROUTES } from '@/shared/config/routes.config';
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from '@/shared/ui/form/field';
-import Link from 'next/link';
-import { useActionState } from 'react';
-
-import { hasFieldError } from '@/shared/forms/errors';
-import { FieldErrorFirst } from '@/shared/forms/form-errors';
+import { Field, FieldDescription, FieldGroup } from '@/shared/ui/form/field';
 import { Form } from '@/shared/ui/form/form';
+import { FormField } from '@/shared/ui/form/form-field';
 import { LoadingButton } from '@/shared/ui/loading-button';
 import type { SignupField, SignupState } from '@/types/auth';
+import Link from 'next/link';
+import { useActionState } from 'react';
 
 const initialState: SignupState = null;
 
@@ -33,9 +24,6 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
     async (prev, fd) => signup(prev, fd),
     initialState,
   );
-
-  const isInvalid = (k: SignupField) =>
-    !state?.ok && hasFieldError(state?.error, k);
 
   return (
     <Card {...props}>
@@ -49,76 +37,48 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
       <CardContent>
         <Form<SignupField, SignupState> state={state} action={formAction}>
           <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="John Doe"
-                required
-                aria-invalid={isInvalid('name') || undefined}
-              />
-              <FieldErrorFirst
-                error={state?.ok === false ? state.error : undefined}
-                field="name"
-                Component={FieldError}
-              />
-            </Field>
+            <FormField<SignupField>
+              state={state}
+              field="name"
+              label="Full Name"
+              type="text"
+              placeholder="John Doe"
+              required
+            />
+
+            <FormField<SignupField>
+              state={state}
+              field="email"
+              label="Email"
+              type="email"
+              placeholder="m@example.com"
+              required
+            />
+
+            <FormField<SignupField>
+              state={state}
+              field="password"
+              label="Password"
+              type="password"
+              required
+            />
+
+            <FormField<SignupField>
+              state={state}
+              field="confirmPassword"
+              name="confirm-password"
+              label="Confirm Password"
+              type="password"
+              id="confirm-password"
+              required
+            />
 
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-                aria-invalid={isInvalid('email') || undefined}
-              />
-              <FieldErrorFirst
-                error={state?.ok === false ? state.error : undefined}
-                field="email"
-                Component={FieldError}
-              />
-            </Field>
-
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                aria-invalid={isInvalid('password') || undefined}
-              />
-              <FieldErrorFirst
-                error={state?.ok === false ? state.error : undefined}
-                field="password"
-                Component={FieldError}
-              />
-            </Field>
-
-            <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Confirm Password
-              </FieldLabel>
-              <Input
-                id="confirm-password"
-                name="confirm-password"
-                type="password"
-                required
-                aria-invalid={isInvalid('confirmPassword') || undefined}
-              />
-              <FieldErrorFirst
-                error={state?.ok === false ? state.error : undefined}
-                field="confirmPassword"
-                Component={FieldError}
-              />
-            </Field>
-
-            <Field>
-              <LoadingButton isLoading={isPending}>
+              <LoadingButton
+                type="submit"
+                isLoading={isPending}
+                className="w-full"
+              >
                 Create Account
               </LoadingButton>
 

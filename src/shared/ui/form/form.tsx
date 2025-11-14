@@ -13,6 +13,7 @@ export type FormProps<
 > = {
   state: S;
   action: (formData: FormData) => void;
+  id?: string;
   className?: string;
   ErrorComponent?: React.ComponentType<{ children: string } & P>;
   componentProps?: P;
@@ -26,6 +27,7 @@ export function Form<
 >({
   state,
   action,
+  id,
   className,
   ErrorComponent,
   componentProps,
@@ -34,7 +36,7 @@ export function Form<
   const error = state && state.ok === false ? state.error : null;
 
   return (
-    <form action={action} noValidate className={className}>
+    <form id={id} action={action} noValidate className={className}>
       {error && (
         <GlobalFormError<K, P>
           error={error}

@@ -2,6 +2,8 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 export type DialogId =
   | 'confirm'
+  | 'form'
+  | 'error'
   | 'add-company'
   | 'edit-company'
   | 'delete-company';
