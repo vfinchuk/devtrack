@@ -1,30 +1,30 @@
 'use client';
 
-import { login } from '@/features/auth/actions/login.action';
-import { ROUTES } from '@/shared/config/routes.config';
-import { cn } from '@/shared/lib/utils';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { login } from '@/features/auth/actions/login.action';
+import { ROUTES } from '@/shared/config/routes.config';
+import { cn } from '@/shared/lib/utils';
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '@/shared/ui/field';
-import { Input } from '@/shared/ui/input';
+} from '@/shared/ui/form/field';
 import Link from 'next/link';
 import { useActionState } from 'react';
 
 import { hasFieldError } from '@/shared/forms/errors';
 import { FieldErrorFirst } from '@/shared/forms/form-errors';
-import { FormBase } from '@/shared/ui/form-base';
+import { Form } from '@/shared/ui/form/form';
 import type { LoginField, LoginState } from '@/types/auth';
 
 const initialState: LoginState = null;
@@ -52,7 +52,7 @@ export default function LoginForm({
         </CardHeader>
 
         <CardContent>
-          <FormBase<LoginField, LoginState> state={state} action={formAction}>
+          <Form<LoginField, LoginState> state={state} action={formAction}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>

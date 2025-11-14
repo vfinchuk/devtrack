@@ -1,7 +1,7 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { openDialog } from '@/features/dialogs/dialog.slice';
-import { Button } from '@/shared/ui/button';
 import { useAppDispatch } from '@/store/hooks';
 
 export function AddCompanyButton() {

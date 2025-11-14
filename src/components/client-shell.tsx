@@ -8,7 +8,7 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from '@/shared/ui/sidebar';
+} from '@/shared/ui/layout/sidebar';
 
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';

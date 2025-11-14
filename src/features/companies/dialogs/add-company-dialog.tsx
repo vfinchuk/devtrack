@@ -1,13 +1,13 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { closeDialog } from '@/features/dialogs/dialog.slice';
 import { hasFieldError } from '@/shared/forms/errors';
 import { FieldErrorFirst } from '@/shared/forms/form-errors';
-import { Button } from '@/shared/ui/button';
-import { FieldError } from '@/shared/ui/field';
-import { FormBase } from '@/shared/ui/form-base';
-import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
+import { FieldError } from '@/shared/ui/form/field';
+import { Form } from '@/shared/ui/form/form';
 import { useAppDispatch } from '@/store/hooks';
 import type { CreateCompanyField, CreateCompanyState } from '@/types/companies';
 import { useRouter } from 'next/navigation';
@@ -35,7 +35,7 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
   const isInvalid = !state?.ok && hasFieldError(state?.error, 'name');
 
   return (
-    <FormBase<CreateCompanyField, CreateCompanyState>
+    <Form<CreateCompanyField, CreateCompanyState>
       state={state}
       action={formAction}
       className="space-y-4"

@@ -1,4 +1,4 @@
-import { SidebarProvider } from '@/shared/ui/sidebar';
+import { SidebarProvider } from '@/shared/ui/layout/sidebar';
 import { render } from '@testing-library/react';
 import { ReactNode } from 'react';
 

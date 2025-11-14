@@ -13,7 +13,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from '@/shared/ui/sidebar';
+} from '@/shared/ui/layout/sidebar';
 import { GalleryVerticalEnd } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -32,7 +32,8 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         .map((route) => {
           const Icon = route.icon;
           const active = isActive(route.path);
-          const hasChildren = Array.isArray(route.children) && route.children.length > 0;
+          const hasChildren =
+            Array.isArray(route.children) && route.children.length > 0;
 
           return (
             <SidebarMenuItem key={route.path}>
@@ -61,8 +62,13 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                             isActive={childActive}
                             aria-current={childActive ? 'page' : undefined}
                           >
-                            <Link href={child.path} className="flex items-center gap-2">
-                              {ChildIcon ? <ChildIcon className="size-4" /> : null}
+                            <Link
+                              href={child.path}
+                              className="flex items-center gap-2"
+                            >
+                              {ChildIcon ? (
+                                <ChildIcon className="size-4" />
+                              ) : null}
                               {child.name}
                             </Link>
                           </SidebarMenuSubButton>
@@ -77,7 +83,9 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     </SidebarMenu>
   );
 
-  const privateTopLevel = APP_ROUTES.filter((r) => r.auth && r.showInSidebar && !r.parent);
+  const privateTopLevel = APP_ROUTES.filter(
+    (r) => r.auth && r.showInSidebar && !r.parent,
+  );
 
   return (
     <Sidebar {...props}>

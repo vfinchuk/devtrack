@@ -6,7 +6,7 @@ import * as React from 'react';
 
 type Empty = Record<never, never>;
 
-export type FormBaseProps<
+export type FormProps<
   K extends string,
   S extends { ok?: boolean; error?: FormError<K> | null } | null,
   P extends object = Empty,
@@ -19,7 +19,7 @@ export type FormBaseProps<
   children: React.ReactNode;
 };
 
-export function FormBase<
+export function Form<
   K extends string,
   S extends { ok?: boolean; error?: FormError<K> | null } | null,
   P extends object = Empty,
@@ -30,7 +30,7 @@ export function FormBase<
   ErrorComponent,
   componentProps,
   children,
-}: FormBaseProps<K, S, P>) {
+}: FormProps<K, S, P>) {
   const error = state && state.ok === false ? state.error : null;
 
   return (

@@ -1,29 +1,29 @@
 'use client';
 
-import { signup } from '@/features/auth/actions/signup.action';
-import { ROUTES } from '@/shared/config/routes.config';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/shared/ui/card';
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { signup } from '@/features/auth/actions/signup.action';
+import { ROUTES } from '@/shared/config/routes.config';
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '@/shared/ui/field';
-import { Input } from '@/shared/ui/input';
+} from '@/shared/ui/form/field';
 import Link from 'next/link';
 import { useActionState } from 'react';
 
 import { hasFieldError } from '@/shared/forms/errors';
 import { FieldErrorFirst } from '@/shared/forms/form-errors';
-import { FormBase } from '@/shared/ui/form-base';
+import { Form } from '@/shared/ui/form/form';
 import type { SignupField, SignupState } from '@/types/auth';
 
 const initialState: SignupState = null;
@@ -47,7 +47,7 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
       </CardHeader>
 
       <CardContent>
-        <FormBase<SignupField, SignupState> state={state} action={formAction}>
+        <Form<SignupField, SignupState> state={state} action={formAction}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
