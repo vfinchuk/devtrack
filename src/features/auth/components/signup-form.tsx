@@ -128,7 +128,7 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
               </FieldDescription>
             </Field>
           </FieldGroup>
-        </FormBase>
+        </Form>
       </CardContent>
     </Card>
   );

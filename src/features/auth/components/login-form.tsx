@@ -106,7 +106,7 @@ export default function LoginForm({
                 </FieldDescription>
               </Field>
             </FieldGroup>
-          </FormBase>
+          </Form>
         </CardContent>
       </Card>
     </div>
