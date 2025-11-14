@@ -1,13 +1,11 @@
 'use client';
 
-import { DialogBase } from '@/shared/ui/dialog-base';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { BaseDialog } from '@/shared/ui/overlays/base-dialog';
 import { dialogRegistry } from './dialog.registry';
-import { closeDialog } from './dialog.slice';
+import { useDialog } from './use-dialog';
 
 export function DialogHost() {
-  const dispatch = useAppDispatch();
-  const { open, id, props } = useAppSelector((s) => s.dialog);
+  const { open, id, props, closeDialog } = useDialog();
 
   if (!open || !id) return null;
 
@@ -15,8 +13,8 @@ export function DialogHost() {
   if (!Comp) return null;
 
   return (
-    <DialogBase open={open} onOpenChange={(v) => !v && dispatch(closeDialog())}>
+    <BaseDialog open={open} onOpenChange={(v) => !v && closeDialog()}>
       <Comp {...(props ?? {})} />
-    </DialogBase>
+    </BaseDialog>
   );
 }

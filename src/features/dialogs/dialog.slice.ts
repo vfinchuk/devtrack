@@ -1,6 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export type DialogId = 'add-company' | 'edit-company' | 'delete-company';
+export type DialogId =
+  | 'confirm'
+  | 'add-company'
+  | 'edit-company'
+  | 'delete-company';
 
 export interface DialogState {
   open: boolean;

@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -25,6 +24,7 @@ import { useActionState } from 'react';
 import { hasFieldError } from '@/shared/forms/errors';
 import { FieldErrorFirst } from '@/shared/forms/form-errors';
 import { Form } from '@/shared/ui/form/form';
+import { LoadingButton } from '@/shared/ui/loading-button';
 import type { LoginField, LoginState } from '@/types/auth';
 
 const initialState: LoginState = null;
@@ -96,9 +96,7 @@ export default function LoginForm({
               </Field>
 
               <Field>
-                <Button disabled={isPending}>
-                  {isPending ? 'Signing in…' : 'Sign in'}
-                </Button>
+                <LoadingButton isLoading={isPending}>Sign in</LoadingButton>
 
                 <FieldDescription className="text-center">
                   Don&apos;t have an account?{' '}

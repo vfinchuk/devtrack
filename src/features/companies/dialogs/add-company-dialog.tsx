@@ -3,12 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { closeDialog } from '@/features/dialogs/dialog.slice';
+import { useDialog } from '@/features/dialogs/use-dialog';
 import { hasFieldError } from '@/shared/forms/errors';
 import { FieldErrorFirst } from '@/shared/forms/form-errors';
 import { FieldError } from '@/shared/ui/form/field';
 import { Form } from '@/shared/ui/form/form';
-import { useAppDispatch } from '@/store/hooks';
+import { LoadingButton } from '@/shared/ui/loading-button';
 import type { CreateCompanyField, CreateCompanyState } from '@/types/companies';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
@@ -17,7 +17,8 @@ import { createCompany } from '../actions/create-company.action';
 export type AddCompanyDialogProps = { defaultName?: string };
 
 export function AddCompanyDialog(props: AddCompanyDialogProps) {
-  const dispatch = useAppDispatch();
+  const { closeDialog } = useDialog();
+
   const router = useRouter();
 
   const [state, formAction, pending] = useActionState<
@@ -27,7 +28,7 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
     const res = await createCompany(_prev, formData);
     if (res?.ok) {
       router.refresh();
-      dispatch(closeDialog());
+      closeDialog();
     }
     return res;
   }, null);
@@ -58,17 +59,11 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => dispatch(closeDialog())}
-        >
+        <Button type="button" variant="outline" onClick={() => closeDialog()}>
           Cancel
         </Button>
-        <Button type="submit" disabled={pending}>
-          {pending ? 'Creating…' : 'Create'}
-        </Button>
+        <LoadingButton isLoading={pending}>Create</LoadingButton>
       </div>
-    </FormBase>
+    </Form>
   );
 }

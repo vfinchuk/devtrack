@@ -1,6 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -24,6 +23,7 @@ import { useActionState } from 'react';
 import { hasFieldError } from '@/shared/forms/errors';
 import { FieldErrorFirst } from '@/shared/forms/form-errors';
 import { Form } from '@/shared/ui/form/form';
+import { LoadingButton } from '@/shared/ui/loading-button';
 import type { SignupField, SignupState } from '@/types/auth';
 
 const initialState: SignupState = null;
@@ -118,9 +118,9 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
             </Field>
 
             <Field>
-              <Button disabled={isPending}>
-                {isPending ? 'Creating…' : 'Create Account'}
-              </Button>
+              <LoadingButton isLoading={isPending}>
+                Create Account
+              </LoadingButton>
 
               <FieldDescription className="px-6 text-center">
                 Already have an account?{' '}

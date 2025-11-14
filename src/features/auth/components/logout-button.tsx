@@ -1,10 +1,18 @@
-import { Button } from '@/components/ui/button';
 import { logout } from '@/features/auth/actions/logout.action';
+import { LoadingButton } from '@/shared/ui/loading-button';
+import { useActionState } from 'react';
 
 export default function LogoutButton() {
+  const [_, formAction, isPending] = useActionState<void, FormData>(
+    logout,
+    undefined,
+  );
+
   return (
-    <form action={logout}>
-      <Button variant="destructive">Log out</Button>
+    <form action={formAction}>
+      <LoadingButton type="submit" variant="destructive" isLoading={isPending}>
+        Logout
+      </LoadingButton>
     </form>
   );
 }

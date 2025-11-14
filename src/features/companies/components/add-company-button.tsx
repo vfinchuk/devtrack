@@ -1,15 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { openDialog } from '@/features/dialogs/dialog.slice';
-import { useAppDispatch } from '@/store/hooks';
+import { useDialog } from '@/features/dialogs/use-dialog';
 
 export function AddCompanyButton() {
-  const dispatch = useAppDispatch();
+  const { openDialog } = useDialog();
   return (
     <Button
       onClick={() =>
-        dispatch(openDialog({ id: 'add-company', props: { defaultName: '' } }))
+        openDialog({ id: 'add-company', props: { defaultName: '' } })
       }
     >
       Add company

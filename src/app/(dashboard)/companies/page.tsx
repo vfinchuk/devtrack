@@ -1,5 +1,6 @@
 import { requireUserId } from '@/features/auth/server/require-user';
 import { AddCompanyButton } from '@/features/companies/components/add-company-button';
+import { DeleteCompanyButton } from '@/features/companies/components/delete-company-button';
 import { getCompanies } from '@/features/companies/queries';
 
 export default async function Companies() {
@@ -18,9 +19,12 @@ export default async function Companies() {
           {companies.map((c) => (
             <li key={c.id} className="flex items-center justify-between p-3">
               <span className="font-medium">{c.name}</span>
-              <span className="text-sm text-muted-foreground">
+              {/* <span className="text-sm text-muted-foreground">
                 {new Date(c.createdAt).toLocaleString()}
-              </span>
+              </span> */}
+              <div>
+                <DeleteCompanyButton companyId={c.id} companyName={c.name} />
+              </div>
             </li>
           ))}
         </ul>
