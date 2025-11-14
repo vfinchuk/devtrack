@@ -1,6 +1,6 @@
 'use client';
 
-import { DialogBase } from '@/components/dialog/dialog-base';
+import { DialogBase } from '@/shared/ui/dialog-base';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { dialogRegistry } from './dialog.registry';
 import { closeDialog } from './dialog.slice';

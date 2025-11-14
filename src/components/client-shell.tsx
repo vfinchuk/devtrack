@@ -10,9 +10,9 @@ import {
   SidebarTrigger,
 } from '@/shared/ui/sidebar';
 
-import LogoutButton from '@/components/auth/logout-button';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
+import LogoutButton from '@/features/auth/components/logout-button';
 import { DialogHost } from '@/features/dialogs/dialog-host';
 import { ModeToggle } from '@/shared/theme/mode-toggle';
 

@@ -1,6 +1,6 @@
 import { requireUserId } from '@/features/auth/server/require-user';
+import { AddCompanyButton } from '@/features/companies/components/add-company-button';
 import { getCompanies } from '@/features/companies/queries';
-import { AddCompanyButton } from './components/add-company-button';
 
 export default async function Companies() {
   const userId = await requireUserId();

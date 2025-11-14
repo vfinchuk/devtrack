@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import '../globals.css';
 
+import ClientShell from '@/components/client-shell';
 import { requireUserId } from '@/features/auth/server/require-user';
-import ClientShell from './client-shell';
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
