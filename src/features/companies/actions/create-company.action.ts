@@ -5,19 +5,16 @@ import { fieldErrors, formError, ok } from '@/core/result';
 import { requireUserId } from '@/features/auth/server/require-user';
 import { ROUTES } from '@/shared/config/routes.config';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
+import { createCompanySchema } from '../schemas/create-company.schema';
 import { createCompanyRaw } from '../services/companies.service';
-
-const schema = z.object({
-  name: z.string().min(1, 'Name is required').max(200, 'Name is too long'),
-});
 
 export async function createCompany(_prev: unknown, fd: FormData) {
   const userId = await requireUserId();
 
-  const parsed = schema.safeParse({
+  const parsed = createCompanySchema.safeParse({
     name: String(fd.get('name') ?? '').trim(),
   });
+
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors;
     return fieldErrors<'name'>({ name: fe.name });

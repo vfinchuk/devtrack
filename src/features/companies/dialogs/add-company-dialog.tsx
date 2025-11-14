@@ -11,7 +11,7 @@ import { useAppDispatch } from '@/store/hooks';
 import type { CreateCompanyState } from '@/types/companies';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
-import { createCompany } from '../actions/create-company';
+import { createCompany } from '../actions/create-company.action';
 
 export type AddCompanyDialogProps = { defaultName?: string };
 

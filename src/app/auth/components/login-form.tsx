@@ -1,6 +1,6 @@
 'use client';
 
-import { login } from '@/features/auth/actions/login';
+import { login } from '@/features/auth/actions/login.action';
 import { ROUTES } from '@/shared/config/routes.config';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
