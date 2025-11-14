@@ -22,7 +22,8 @@ import Link from 'next/link';
 import { useActionState } from 'react';
 
 import { hasFieldError } from '@/shared/forms/errors';
-import { FieldErrorFirst, GlobalFormError } from '@/shared/forms/form-errors';
+import { FieldErrorFirst } from '@/shared/forms/form-errors';
+import { FormBase } from '@/shared/ui/form-base';
 import type { SignupField, SignupState } from '@/types/auth';
 
 const initialState: SignupState = null;
@@ -46,18 +47,7 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
       </CardHeader>
 
       <CardContent>
-        {!state?.ok && state?.error && (
-          <GlobalFormError
-            error={state.error}
-            Component={({ children }) => (
-              <p role="status" className="mb-4 text-sm text-destructive">
-                {children}
-              </p>
-            )}
-          />
-        )}
-
-        <form action={formAction} noValidate>
+        <FormBase<SignupField, SignupState> state={state} action={formAction}>
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
@@ -138,7 +128,7 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
               </FieldDescription>
             </Field>
           </FieldGroup>
-        </form>
+        </FormBase>
       </CardContent>
     </Card>
   );

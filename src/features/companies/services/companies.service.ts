@@ -1,8 +1,8 @@
-// src/features/companies/services/companies.service.ts
 import { ConflictError, InternalError } from '@/core/errors';
 import { err, ok, Result } from '@/core/result';
 import { prisma } from '@/server/db/prisma';
 import { Prisma } from '@prisma/client';
+import { CreateCompanyDTO } from '../schemas/create-company.schema';
 
 export async function getCompaniesByOwner(ownerId: string) {
   return prisma.company.findMany({
@@ -13,11 +13,11 @@ export async function getCompaniesByOwner(ownerId: string) {
 
 export async function createCompanyRaw(
   ownerId: string,
-  name: string,
+  dto: CreateCompanyDTO,
 ): Promise<Result<{ id: string }, ConflictError | InternalError>> {
   try {
     const created = await prisma.company.create({
-      data: { ownerId, name },
+      data: { ownerId, ...dto },
       select: { id: true },
     });
     return ok(created);

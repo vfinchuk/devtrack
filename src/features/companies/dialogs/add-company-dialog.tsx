@@ -2,13 +2,14 @@
 
 import { closeDialog } from '@/features/dialogs/dialog.slice';
 import { hasFieldError } from '@/shared/forms/errors';
-import { FieldErrorFirst, GlobalFormError } from '@/shared/forms/form-errors';
+import { FieldErrorFirst } from '@/shared/forms/form-errors';
 import { Button } from '@/shared/ui/button';
 import { FieldError } from '@/shared/ui/field';
+import { FormBase } from '@/shared/ui/form-base';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';
 import { useAppDispatch } from '@/store/hooks';
-import type { CreateCompanyState } from '@/types/companies';
+import type { CreateCompanyField, CreateCompanyState } from '@/types/companies';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { createCompany } from '../actions/create-company.action';
@@ -22,8 +23,8 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
   const [state, formAction, pending] = useActionState<
     CreateCompanyState,
     FormData
-  >(async (prev, formData) => {
-    const res = await createCompany(prev, formData);
+  >(async (_prev, formData) => {
+    const res = await createCompany(_prev, formData);
     if (res?.ok) {
       router.refresh();
       dispatch(closeDialog());
@@ -34,18 +35,11 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
   const isInvalid = !state?.ok && hasFieldError(state?.error, 'name');
 
   return (
-    <form action={formAction} className="space-y-4" noValidate>
-      {!state?.ok && state?.error && (
-        <GlobalFormError
-          error={state.error}
-          Component={({ children }) => (
-            <p role="status" className="text-sm text-destructive">
-              {children}
-            </p>
-          )}
-        />
-      )}
-
+    <FormBase<CreateCompanyField, CreateCompanyState>
+      state={state}
+      action={formAction}
+      className="space-y-4"
+    >
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
         <Input
@@ -75,6 +69,6 @@ export function AddCompanyDialog(props: AddCompanyDialogProps) {
           {pending ? 'Creating…' : 'Create'}
         </Button>
       </div>
-    </form>
+    </FormBase>
   );
 }

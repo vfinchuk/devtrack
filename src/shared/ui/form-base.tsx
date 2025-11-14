@@ -1,0 +1,56 @@
+'use client';
+
+import type { FormError } from '@/core/result';
+import { GlobalFormError } from '@/shared/forms/form-errors';
+import * as React from 'react';
+
+type Empty = Record<never, never>;
+
+export type FormBaseProps<
+  K extends string,
+  S extends { ok?: boolean; error?: FormError<K> | null } | null,
+  P extends object = Empty,
+> = {
+  state: S;
+  action: (formData: FormData) => void;
+  className?: string;
+  ErrorComponent?: React.ComponentType<{ children: string } & P>;
+  componentProps?: P;
+  children: React.ReactNode;
+};
+
+export function FormBase<
+  K extends string,
+  S extends { ok?: boolean; error?: FormError<K> | null } | null,
+  P extends object = Empty,
+>({
+  state,
+  action,
+  className,
+  ErrorComponent,
+  componentProps,
+  children,
+}: FormBaseProps<K, S, P>) {
+  const error = state && state.ok === false ? state.error : null;
+
+  return (
+    <form action={action} noValidate className={className}>
+      {error && (
+        <GlobalFormError<K, P>
+          error={error}
+          Component={
+            ErrorComponent ??
+            (({ children }) => (
+              <p role="status" className="mb-2 text-sm text-destructive">
+                {children}
+              </p>
+            ))
+          }
+          componentProps={componentProps}
+        />
+      )}
+
+      {children}
+    </form>
+  );
+}
