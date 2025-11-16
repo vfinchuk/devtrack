@@ -38,3 +38,6 @@ export type UpdateCompanyDTO = Pick<
 export const deleteCompanySchema = z.object({
   id: z.string().min(1, 'Invalid company id'),
 });
+
+export type DeleteCompanyInput = z.infer<typeof deleteCompanySchema>;
+export type DeleteCompanyDTO = Pick<DeleteCompanyInput, 'id'>;

@@ -16,7 +16,3 @@ export type UpdateCompanyState = FormResult<
 
 /* ---------- DELETE COMPANY ---------- */
 export type DeleteCompanyField = 'id';
-export type DeleteCompanyState = FormResult<
-  { id: string },
-  DeleteCompanyField
-> | null;
