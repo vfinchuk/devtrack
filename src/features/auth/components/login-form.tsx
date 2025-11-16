@@ -7,10 +7,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Field, FieldDescription, FieldGroup } from '@/components/ui/field';
 import { login } from '@/features/auth/actions/login.action';
 import { ROUTES } from '@/shared/config/routes.config';
 import { cn } from '@/shared/lib/utils';
-import { Field, FieldDescription, FieldGroup } from '@/shared/ui/form/field';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
 import { PasswordField } from '@/shared/ui/form/password-field';

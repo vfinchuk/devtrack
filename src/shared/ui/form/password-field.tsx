@@ -1,5 +1,6 @@
 'use client';
 
+import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { FormError } from '@/core';
 import { hasFieldError } from '@/shared/forms/errors';
@@ -7,7 +8,6 @@ import { FieldErrorFirst } from '@/shared/forms/form-errors';
 import { cn } from '@/shared/lib/utils';
 import { Eye, EyeOff } from 'lucide-react';
 import * as React from 'react';
-import { Field, FieldError, FieldLabel } from './field';
 
 type StateWithFormError<TField extends string> =
   | null
@@ -87,7 +87,9 @@ export function PasswordField<TField extends string>({
         </button>
       </div>
 
-      <FieldErrorFirst error={error} field={field} Component={FieldError} />
+      <div className="min-h-[1.25rem]">
+        <FieldErrorFirst error={error} field={field} Component={FieldError} />
+      </div>
     </Field>
   );
 }
