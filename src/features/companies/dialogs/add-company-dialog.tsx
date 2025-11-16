@@ -9,9 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { createCompany } from '../actions/create-company.action';
 
-export type AddCompanyDialogProps = { defaultName?: string };
-
-export function AddCompanyDialog({ defaultName }: AddCompanyDialogProps) {
+export function AddCompanyDialog() {
   const router = useRouter();
   const { closeDialog } = useDialog();
 
@@ -50,8 +48,22 @@ export function AddCompanyDialog({ defaultName }: AddCompanyDialogProps) {
           placeholder="Acme Inc"
           required
           inputProps={{
-            defaultValue: defaultName,
+            autoFocus: true,
           }}
+        />
+
+        <FormField<CreateCompanyField>
+          state={state}
+          field="website"
+          label="Website"
+          placeholder="www.company.com"
+        />
+
+        <FormField<CreateCompanyField>
+          state={state}
+          field="location"
+          label="Location"
+          placeholder="Kyiv"
         />
       </Form>
     </FormDialog>

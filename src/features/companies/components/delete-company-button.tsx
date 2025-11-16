@@ -20,18 +20,15 @@ export function DeleteCompanyButton({ id, name }: Props) {
       variant="destructive"
       icon={<Trash2 />}
       onClick={() => {
-        openDialog({
-          id: 'confirm',
-          props: {
-            title: 'Delete company',
-            description: `Are you sure you want to delete "${name}"?`,
-            confirmLabel: 'Delete',
-            variant: 'destructive',
-            onConfirm: async () => {
-              // await deleteCompany(id);
-              router.refresh();
-              closeDialog();
-            },
+        openDialog('confirm', {
+          title: 'Delete company',
+          description: `Are you sure you want to delete "${name}"?`,
+          confirmLabel: 'Delete',
+          variant: 'destructive',
+          onConfirm: async () => {
+            // await deleteCompany(id);
+            router.refresh();
+            closeDialog();
           },
         });
       }}

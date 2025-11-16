@@ -5,18 +5,17 @@ import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
 import { FormDialog } from '@/shared/ui/overlays/form-dialog';
 import type { UpdateCompanyField, UpdateCompanyState } from '@/types/companies';
+import { Company } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { updateCompany } from '../actions/update-company.action';
 
 export type EditCompanyDialogProps = {
-  companyId: string;
-  defaultName?: string;
+  company: Company;
 };
 
 export function EditCompanyDialog({
-  companyId,
-  defaultName,
+  company: { id: companyId, name, website, location },
 }: EditCompanyDialogProps) {
   const router = useRouter();
   const { closeDialog } = useDialog();
@@ -60,7 +59,28 @@ export function EditCompanyDialog({
           placeholder="Acme Inc"
           required
           inputProps={{
-            defaultValue: defaultName,
+            defaultValue: name,
+            autoFocus: true,
+          }}
+        />
+
+        <FormField<UpdateCompanyField>
+          state={state}
+          field="website"
+          label="Website"
+          placeholder="www.company.com"
+          inputProps={{
+            defaultValue: website || '',
+          }}
+        />
+
+        <FormField<UpdateCompanyField>
+          state={state}
+          field="location"
+          label="Location"
+          placeholder="Kyiv"
+          inputProps={{
+            defaultValue: location || '',
           }}
         />
       </Form>

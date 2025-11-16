@@ -2,14 +2,14 @@
 
 import { useDialog } from '@/features/dialogs/use-dialog';
 import { IconButton } from '@/shared/ui/icon-button';
+import { Company } from '@prisma/client';
 import { Pencil } from 'lucide-react';
 
 type Props = {
-  id: string;
-  name: string;
+  company: Company;
 };
 
-export function EditCompanyButton({ id, name }: Props) {
+export function EditCompanyButton({ company }: Props) {
   const { openDialog } = useDialog();
 
   return (
@@ -17,12 +17,7 @@ export function EditCompanyButton({ id, name }: Props) {
       size="sm"
       variant="outline"
       icon={<Pencil />}
-      onClick={() =>
-        openDialog({
-          id: 'edit-company',
-          props: { companyId: id, defaultName: name },
-        })
-      }
+      onClick={() => openDialog('edit-company', { company })}
     />
   );
 }

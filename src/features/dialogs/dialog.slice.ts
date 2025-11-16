@@ -1,17 +1,12 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { DialogPropsMap } from './dialog.types';
 
-export type DialogId =
-  | 'confirm'
-  | 'form'
-  | 'error'
-  | 'add-company'
-  | 'edit-company'
-  | 'delete-company';
+export type DialogId = keyof DialogPropsMap;
 
 export interface DialogState {
   open: boolean;
   id: DialogId | null;
-  props: Record<string, unknown> | null;
+  props: DialogPropsMap[DialogId] | null;
 }
 
 const initialState: DialogState = {
@@ -26,7 +21,10 @@ const slice = createSlice({
   reducers: {
     openDialog: (
       state,
-      action: PayloadAction<{ id: DialogId; props?: Record<string, unknown> }>,
+      action: PayloadAction<{
+        id: DialogId;
+        props?: DialogPropsMap[DialogId] | null;
+      }>,
     ) => {
       state.open = true;
       state.id = action.payload.id;

@@ -10,7 +10,7 @@ export function AddCompanyButton() {
   return (
     <Button
       type="button"
-      onClick={() => openDialog({ id: 'add-company' })}
+      onClick={() => openDialog('add-company')}
       className="gap-2"
     >
       <Plus className="h-4 w-4" />

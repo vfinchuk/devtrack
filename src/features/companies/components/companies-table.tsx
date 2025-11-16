@@ -11,15 +11,11 @@ import { Card } from '@/components/ui/card';
 import { AddCompanyButton } from '@/features/companies/components/add-company-button';
 import { DeleteCompanyButton } from '@/features/companies/components/delete-company-button';
 import { EditCompanyButton } from '@/features/companies/components/edit-company-button';
-
-type Company = {
-  id: string;
-  name: string;
-  createdAt: Date;
-};
+import { ExternalLink } from '@/shared/ui/external-link';
+import { Company } from '@prisma/client';
 
 type CompaniesTableProps = {
-  companies: Omit<Company, 'ownerId'>[];
+  companies: Company[];
 };
 export function CompaniesTable({ companies }: CompaniesTableProps) {
   const hasCompanies = companies.length > 0;
@@ -45,7 +41,9 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[40%]">Name</TableHead>
+                <TableHead className="w-[20%]">Name</TableHead>
+                <TableHead className="w-[20%]">Website</TableHead>
+                <TableHead className="w-[20%]">Location</TableHead>
                 <TableHead>Created</TableHead>
                 <TableHead className="text-right w-[1%]">Actions</TableHead>
               </TableRow>
@@ -55,6 +53,14 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
               {companies.map((company) => (
                 <TableRow key={company.id}>
                   <TableCell className="font-medium">{company.name}</TableCell>
+
+                  <TableCell className="font-medium">
+                    <ExternalLink href={company.website} normalize />
+                  </TableCell>
+
+                  <TableCell className="font-medium">
+                    {company.location}
+                  </TableCell>
 
                   <TableCell className="text-xs text-muted-foreground">
                     {company.createdAt.toLocaleDateString('en-GB', {
@@ -66,7 +72,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
 
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <EditCompanyButton id={company.id} name={company.name} />
+                      <EditCompanyButton company={company} />
                       <DeleteCompanyButton
                         id={company.id}
                         name={company.name}

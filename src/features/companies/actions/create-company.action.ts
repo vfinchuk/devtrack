@@ -20,11 +20,17 @@ export async function createCompany(
 
   const parsed = createCompanySchema.safeParse({
     name: String(formData.get('name') ?? '').trim(),
+    website: String(formData.get('website') ?? '').trim(),
+    location: String(formData.get('location') ?? '').trim(),
   });
 
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors;
-    return fieldErrors<CreateCompanyField>({ name: fe.name });
+    return fieldErrors<CreateCompanyField>({
+      name: fe.name,
+      website: fe.website,
+      location: fe.location,
+    });
   }
 
   const dto: CreateCompanyDTO = parsed.data;

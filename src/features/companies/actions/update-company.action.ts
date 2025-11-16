@@ -19,19 +19,26 @@ export async function updateCompany(
   const userId = await requireUserId();
 
   const id = String(formData.get('id') ?? '').trim();
-  const name = String(formData.get('name') ?? '').trim();
 
   if (!id) {
     return formError(
       'Invalid company id. Please reload the page and try again.',
     );
   }
-
-  const parsed = updateCompanySchema.safeParse({ name, id });
+  const parsed = updateCompanySchema.safeParse({
+    id,
+    name: String(formData.get('name') ?? '').trim(),
+    website: String(formData.get('website') ?? '').trim(),
+    location: String(formData.get('location') ?? '').trim(),
+  });
 
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors;
-    return fieldErrors<UpdateCompanyField>({ name: fe.name });
+    return fieldErrors<UpdateCompanyField>({
+      name: fe.name,
+      website: fe.website,
+      location: fe.location,
+    });
   }
 
   const dto: UpdateCompanyDTO = parsed.data;
