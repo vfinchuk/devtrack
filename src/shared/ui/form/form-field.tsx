@@ -67,7 +67,7 @@ export function FormField<TField extends string>({
         {...inputProps}
       />
 
-      <div className="min-h-[1.25rem]">
+      <div className="min-h-[1rem]">
         <FieldErrorFirst error={error} field={field} Component={FieldError} />
       </div>
     </Field>
