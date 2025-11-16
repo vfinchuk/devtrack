@@ -2,8 +2,7 @@ import { ConflictError, InternalError } from '@/core/errors';
 import { err, ok, Result } from '@/core/result';
 import { prisma } from '@/server/db/prisma';
 import { Prisma } from '@prisma/client';
-import { CreateCompanyDTO } from '../schemas/create-company.schema';
-import { UpdateCompanyDTO } from '../schemas/update-company.schema';
+import { CreateCompanyDTO, UpdateCompanyDTO } from '../schemas/company.schema';
 
 export async function getCompaniesByOwner(ownerId: string) {
   return prisma.company.findMany({

@@ -6,10 +6,11 @@ import { requireUserId } from '@/features/auth/server/require-user';
 import { ROUTES } from '@/shared/config/routes.config';
 import { CreateCompanyField, CreateCompanyState } from '@/types/companies';
 import { revalidatePath } from 'next/cache';
+
 import {
   CreateCompanyDTO,
   createCompanySchema,
-} from '../schemas/create-company.schema';
+} from '../schemas/company.schema';
 import { createCompanyRaw } from '../services/companies.service';
 
 export async function createCompany(

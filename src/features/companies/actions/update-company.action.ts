@@ -6,10 +6,11 @@ import { requireUserId } from '@/features/auth/server/require-user';
 import { ROUTES } from '@/shared/config/routes.config';
 import type { UpdateCompanyField, UpdateCompanyState } from '@/types/companies';
 import { revalidatePath } from 'next/cache';
+
 import {
   UpdateCompanyDTO,
   updateCompanySchema,
-} from '../schemas/update-company.schema';
+} from '../schemas/company.schema';
 import { updateCompanyRaw } from '../services/companies.service';
 
 export async function updateCompany(
