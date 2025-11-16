@@ -3,6 +3,7 @@ import { err, ok, Result } from '@/core/result';
 import { prisma } from '@/server/db/prisma';
 import { Prisma } from '@prisma/client';
 import { CreateCompanyDTO } from '../schemas/create-company.schema';
+import { UpdateCompanyDTO } from '../schemas/update-company.schema';
 
 export async function getCompaniesByOwner(ownerId: string) {
   return prisma.company.findMany({
@@ -34,8 +35,7 @@ export async function createCompanyRaw(
 
 export async function updateCompanyRaw(
   ownerId: string,
-  id: string,
-  name: string,
+  { id, name }: UpdateCompanyDTO,
 ): Promise<Result<{ id: string }, ConflictError | InternalError>> {
   try {
     const updated = await prisma.company.update({

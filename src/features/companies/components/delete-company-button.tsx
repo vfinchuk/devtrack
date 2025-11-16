@@ -1,38 +1,40 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { wait } from '@/core';
 import { useDialog } from '@/features/dialogs/use-dialog';
+import { IconButton } from '@/shared/ui/icon-button';
+import { Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-type Props = { companyId: string; companyName: string };
+type Props = {
+  id: string;
+  name: string;
+};
 
-export function DeleteCompanyButton({ companyId, companyName }: Props) {
+export function DeleteCompanyButton({ id, name }: Props) {
+  const router = useRouter();
   const { openDialog, closeDialog } = useDialog();
 
-  const handleClick = () => {
-    openDialog({
-      id: 'confirm',
-      props: {
-        title: 'Delete company',
-        description: `Are you sure you want to delete "${companyName}"? This action cannot be undone.`,
-        confirmLabel: 'Delete',
-        cancelLabel: 'Cancel',
-        variant: 'destructive',
-        onConfirm: async () => {
-          // await deleteCompany(companyId);
-          await wait(3000);
-          closeDialog();
-        },
-        onCancel: () => {
-          closeDialog();
-        },
-      },
-    });
-  };
-
   return (
-    <Button variant="destructive" size="sm" onClick={handleClick}>
-      Delete
-    </Button>
+    <IconButton
+      size="sm"
+      variant="destructive"
+      icon={<Trash2 />}
+      onClick={() => {
+        openDialog({
+          id: 'confirm',
+          props: {
+            title: 'Delete company',
+            description: `Are you sure you want to delete "${name}"?`,
+            confirmLabel: 'Delete',
+            variant: 'destructive',
+            onConfirm: async () => {
+              // await deleteCompany(id);
+              router.refresh();
+              closeDialog();
+            },
+          },
+        });
+      }}
+    />
   );
 }

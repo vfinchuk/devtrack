@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { useDialog } from '@/features/dialogs/use-dialog';
 import clsx from 'clsx';
 import * as React from 'react';
 import { LoadingButton } from '../loading-button';
@@ -28,6 +29,7 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const { closeDialog } = useDialog();
   const [submitting, setSubmitting] = React.useState(false);
 
   async function handleConfirm() {
@@ -41,7 +43,12 @@ export function ConfirmDialog({
   }
 
   function handleCancel() {
-    onCancel?.();
+    if (onCancel) {
+      onCancel?.();
+      return;
+    }
+
+    closeDialog();
   }
 
   return (
