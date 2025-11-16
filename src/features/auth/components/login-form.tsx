@@ -13,6 +13,7 @@ import { cn } from '@/shared/lib/utils';
 import { Field, FieldDescription, FieldGroup } from '@/shared/ui/form/field';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
+import { PasswordField } from '@/shared/ui/form/password-field';
 import { LoadingButton } from '@/shared/ui/loading-button';
 import type { LoginField, LoginState } from '@/types/auth';
 import Link from 'next/link';
@@ -51,11 +52,10 @@ export default function LoginForm({
                 required
               />
 
-              <FormField<LoginField>
+              <PasswordField<LoginField>
                 state={state}
                 field="password"
                 label="Password"
-                type="password"
                 required
                 labelExtra={
                   <Link

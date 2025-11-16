@@ -12,6 +12,7 @@ import { ROUTES } from '@/shared/config/routes.config';
 import { Field, FieldDescription, FieldGroup } from '@/shared/ui/form/field';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
+import { PasswordField } from '@/shared/ui/form/password-field';
 import { LoadingButton } from '@/shared/ui/loading-button';
 import type { SignupField, SignupState } from '@/types/auth';
 import Link from 'next/link';
@@ -55,21 +56,19 @@ export default function SignupForm(props: React.ComponentProps<typeof Card>) {
               required
             />
 
-            <FormField<SignupField>
+            <PasswordField<SignupField>
               state={state}
               field="password"
               label="Password"
-              type="password"
               required
             />
 
-            <FormField<SignupField>
+            <PasswordField<SignupField>
               state={state}
               field="confirmPassword"
               name="confirm-password"
-              label="Confirm Password"
-              type="password"
               id="confirm-password"
+              label="Confirm Password"
               required
             />
 
