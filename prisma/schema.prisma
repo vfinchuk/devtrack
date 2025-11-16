@@ -7,6 +7,47 @@ datasource db {
   url       = env("DATABASE_URL")
 }
 
+enum ApplicationStatus {
+  applied
+  screening
+  interview
+  offer
+  rejected
+  on_hold
+  withdrawn
+}
+
+enum InterviewStage {
+  screening
+  tech
+  system_design
+  manager
+  hr
+  offer_call
+  other
+}
+
+enum InterviewType {
+  phone
+  video
+  onsite
+  task
+}
+
+enum Source {
+  linkedin
+  justjoin
+  nofluff
+  company_site
+  referral
+  other
+}
+
+enum AttachmentKind {
+  resume
+  other
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -18,6 +59,9 @@ model User {
   keys      Key[]
 
   companies Company[]
+  attachments Attachment[]
+  applications Application[]
+  notes Note[]
 }
 
 model Session {
@@ -39,11 +83,121 @@ model Key {
 
 model Company {
   id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
 
   ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id])
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 
-  @@index([ownerId])
+  name      String
+  website   String?
+  location  String?
+
+  applications Application[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([ownerId, name])
+  @@index([ownerId, name])
+}
+
+model Application {
+  id             String            @id @default(cuid())
+
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  companyId      String
+  company        Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  role           String
+  status         ApplicationStatus @default(applied)
+
+  seniority      String?
+  employmentType String?
+
+  source         Source?
+  sourceUrl      String?
+
+  salaryMin        Int?
+  salaryMax        Int?
+  currency         String?
+  compensationNote String?
+
+  appliedAt      DateTime          @default(now())
+  lastActivityAt DateTime          @default(now())
+  archived       Boolean           @default(false)
+
+  interviews     Interview[]
+  notes          Note[]
+  attachments    Attachment[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([userId, status, lastActivityAt])
+  @@index([companyId])
+}
+
+model Interview {
+  id            String         @id @default(cuid())
+
+  applicationId String
+  application   Application    @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  stage         InterviewStage
+  type          InterviewType
+
+  scheduledAt   DateTime
+  durationMin   Int?
+  timezone      String?
+
+  interviewer   String?
+  location      String?
+  result        String?
+
+  notes         Note[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([applicationId, scheduledAt])
+}
+
+model Note {
+  id            String       @id @default(cuid())
+
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  applicationId String?
+  application   Application? @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  interviewId   String?
+  interview     Interview?   @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+
+  text          String
+  createdAt     DateTime @default(now())
+
+  @@index([applicationId, createdAt])
+  @@index([interviewId, createdAt])
+}
+
+model Attachment {
+  id            String          @id @default(cuid())
+
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  applicationId String
+  application   Application     @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  kind          AttachmentKind  @default(other)
+  filename      String
+  mime          String
+  size          Int
+  url           String
+
+  createdAt     DateTime @default(now())
+
+  @@index([applicationId, createdAt])
 }
