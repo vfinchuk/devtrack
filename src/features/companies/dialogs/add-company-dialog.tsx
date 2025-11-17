@@ -27,8 +27,6 @@ export function AddCompanyDialog() {
 
   return (
     <FormDialog
-      title="Create Company"
-      description="Add a new company to your workspace."
       formId="add-company-form"
       isSubmitting={pending}
       submitLabel="Create"

@@ -10,16 +10,19 @@ import {
 import clsx from 'clsx';
 import * as React from 'react';
 
-export type BaseDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+export interface BaseDialogProps {
   title?: string;
   description?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  children?: React.ReactNode;
-};
+}
 
-const sizeToClass: Record<NonNullable<BaseDialogProps['size']>, string> = {
+interface Props extends BaseDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  children?: React.ReactNode;
+}
+
+const sizeToClass: Record<NonNullable<Props['size']>, string> = {
   sm: 'sm:max-w-sm',
   md: 'sm:max-w-md',
   lg: 'sm:max-w-lg',
@@ -33,18 +36,23 @@ export function BaseDialog({
   description,
   size = 'md',
   children,
-}: BaseDialogProps) {
+}: Props) {
+  const hasVisibleHeader = Boolean(title || description);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className={clsx(sizeToClass[size])}>
-        {(title || description) && (
+        {hasVisibleHeader ? (
           <DialogHeader>
             {title && <DialogTitle>{title}</DialogTitle>}
             {description && (
               <DialogDescription>{description}</DialogDescription>
             )}
           </DialogHeader>
+        ) : (
+          <DialogTitle className="sr-only">Dialog</DialogTitle>
         )}
+
         {children}
       </DialogContent>
     </Dialog>

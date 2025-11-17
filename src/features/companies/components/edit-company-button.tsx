@@ -17,7 +17,13 @@ export function EditCompanyButton({ company }: Props) {
       size="sm"
       variant="outline"
       icon={<Pencil />}
-      onClick={() => openDialog('edit-company', { company })}
+      onClick={() =>
+        openDialog('edit-company', {
+          company,
+          title: 'Edit Company',
+          description: 'Update company details.',
+        })
+      }
     />
   );
 }

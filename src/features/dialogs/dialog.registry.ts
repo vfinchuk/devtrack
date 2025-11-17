@@ -4,6 +4,8 @@ import { FormDialog } from '@/shared/ui/overlays/form-dialog';
 import type { ComponentType } from 'react';
 import { AddCompanyDialog } from '../companies/dialogs/add-company-dialog';
 import { EditCompanyDialog } from '../companies/dialogs/edit-company-dialog';
+import { DialogId } from './dialog.slice';
+import { DialogPropsMap } from './dialog.types';
 
 export type DialogComponent<P = Record<string, unknown>> = ComponentType<P>;
 
@@ -13,4 +15,6 @@ export const dialogRegistry = {
   form: FormDialog,
   'add-company': AddCompanyDialog,
   'edit-company': EditCompanyDialog,
-} as const;
+} satisfies {
+  [K in DialogId]: ComponentType<DialogPropsMap[K]>;
+};

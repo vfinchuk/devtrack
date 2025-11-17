@@ -10,7 +10,12 @@ export function AddCompanyButton() {
   return (
     <Button
       type="button"
-      onClick={() => openDialog('add-company')}
+      onClick={() =>
+        openDialog('add-company', {
+          title: 'Create Company',
+          description: 'Add a new company to your workspace.',
+        })
+      }
       className="gap-2"
     >
       <Plus className="h-4 w-4" />

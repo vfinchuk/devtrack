@@ -3,6 +3,7 @@
 import { useDialog } from '@/features/dialogs/use-dialog';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
+import { BaseDialogProps } from '@/shared/ui/overlays/base-dialog';
 import { FormDialog } from '@/shared/ui/overlays/form-dialog';
 import type { UpdateCompanyField, UpdateCompanyState } from '@/types/companies';
 import { Company } from '@prisma/client';
@@ -10,9 +11,9 @@ import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { updateCompany } from '../actions/update-company.action';
 
-export type EditCompanyDialogProps = {
+export interface EditCompanyDialogProps extends BaseDialogProps {
   company: Company;
-};
+}
 
 export function EditCompanyDialog({
   company: { id: companyId, name, website, location },
@@ -36,8 +37,6 @@ export function EditCompanyDialog({
 
   return (
     <FormDialog
-      title="Edit Company"
-      description="Update company details."
       formId="edit-company-form"
       isSubmitting={pending}
       submitLabel="Save changes"

@@ -8,20 +8,16 @@ import { LoadingButton } from '../loading-button';
 
 export type ConfirmDialogVariant = 'default' | 'destructive';
 
-export type ConfirmDialogProps = {
-  title?: string;
-  description?: string;
+export interface ConfirmDialogProps {
   confirmLabel?: string;
   cancelLabel?: string;
   variant?: ConfirmDialogVariant;
   isSubmitting?: boolean;
   onConfirm?: () => void | Promise<void>;
   onCancel?: () => void;
-};
+}
 
 export function ConfirmDialog({
-  title = 'Are you sure?',
-  description,
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
   variant = 'default',
@@ -44,34 +40,22 @@ export function ConfirmDialog({
 
   function handleCancel() {
     if (onCancel) {
-      onCancel?.();
+      onCancel();
       return;
     }
-
     closeDialog();
   }
 
+  const disabled = isSubmitting || submitting;
+
   return (
     <div className="space-y-4">
-      {(title || description) && (
-        <div className="space-y-1">
-          {title && (
-            <h2 className="text-lg font-semibold leading-none tracking-tight">
-              {title}
-            </h2>
-          )}
-          {description && (
-            <p className="text-sm text-muted-foreground">{description}</p>
-          )}
-        </div>
-      )}
-
       <div className="flex justify-end gap-2">
         <Button
           type="button"
           variant="outline"
           onClick={handleCancel}
-          disabled={isSubmitting || submitting}
+          disabled={disabled}
         >
           {cancelLabel}
         </Button>
@@ -79,7 +63,7 @@ export function ConfirmDialog({
         <LoadingButton
           type="button"
           onClick={handleConfirm}
-          isLoading={isSubmitting || submitting}
+          isLoading={disabled}
           className={clsx(
             variant === 'destructive' &&
               'bg-destructive hover:bg-destructive/90',
