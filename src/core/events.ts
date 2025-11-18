@@ -1,5 +1,3 @@
-// src/core/events.ts
-
 /**
  * Map your domain events to their payload types.
  * Extend with new events as needed.
