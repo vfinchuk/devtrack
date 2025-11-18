@@ -1,9 +1,9 @@
+import LoginForm from '@/features/auth/components/login-form';
+import SignupForm from '@/features/auth/components/signup-form';
+import { verifyAuthSession } from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
-import { verifyAuthSession } from '@/shared/lib/auth';
 import { PageProps } from '@/types/page-props';
 import { redirect } from 'next/navigation';
-import LoginForm from './components/login-form';
-import SignupForm from './components/signup-form';
 
 export default async function AuthPage({ searchParams }: PageProps) {
   const sp = await searchParams;

@@ -1,8 +1,11 @@
 'use server';
 
 import { events, logger } from '@/core';
+import {
+  destroyAuthSession,
+  verifyAuthSession,
+} from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
-import { destroyAuthSession, verifyAuthSession } from '@/shared/lib/auth';
 import { redirect } from 'next/navigation';
 
 export async function logout() {

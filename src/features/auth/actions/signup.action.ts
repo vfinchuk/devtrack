@@ -1,14 +1,15 @@
 'use server';
 
-import { ConflictError } from '@/core';
+import { ConflictError } from '@/core/errors';
+import { fieldErrors, formError } from '@/core/result';
 import {
   signUpSchema,
   type SignUpDTO,
 } from '@/features/auth/schemas/signup.schema';
+import { createAuthSession } from '@/features/auth/server/auth';
 import { signUpService } from '@/features/auth/services/auth.service';
 import { ROUTES } from '@/shared/config/routes.config';
-import { createAuthSession } from '@/shared/lib/auth';
-import { SignupState } from '@/types/auth';
+import type { SignupField, SignupState } from '@/types/auth';
 import { redirect } from 'next/navigation';
 
 export async function signup(
@@ -23,14 +24,14 @@ export async function signup(
   };
 
   const parsed = signUpSchema.safeParse(raw);
-
   if (!parsed.success) {
-    const { fieldErrors } = parsed.error.flatten();
-    return {
-      message: 'Please fix form errors',
-      errors: fieldErrors,
-      values: { name: raw.name, email: raw.email },
-    };
+    const fe = parsed.error.flatten().fieldErrors;
+    return fieldErrors<SignupField>({
+      name: fe.name,
+      email: fe.email,
+      password: fe.password,
+      confirmPassword: fe.confirmPassword,
+    });
   }
 
   const dto: SignUpDTO = {
@@ -43,20 +44,11 @@ export async function signup(
 
   if (!res.ok) {
     if (res.error instanceof ConflictError) {
-      return {
-        message: res.error.message,
-        errors: { email: ['Email already in use'] },
-        values: { name: dto.name, email: dto.email },
-      };
+      return fieldErrors<SignupField>({ email: ['Email already in use'] });
     }
-
-    return {
-      message: 'Unexpected error',
-      values: { name: dto.name, email: dto.email },
-    };
+    return formError('Unexpected error. Please try again later.');
   }
 
   await createAuthSession(res.value.id);
-
   redirect(ROUTES.DASHBOARD);
 }

@@ -1,8 +1,8 @@
 'use server';
 
 import { logger } from '@/core/logger';
+import { verifyAuthSession } from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
-import { verifyAuthSession } from '@/shared/lib/auth';
 import { redirect } from 'next/navigation';
 
 export async function requireUser() {
