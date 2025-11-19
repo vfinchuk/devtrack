@@ -1,12 +1,16 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+type ModeToggleProps = {
+  label?: string;
+};
+
+export function ModeToggle({ label = 'Appearance' }: ModeToggleProps) {
+  const { theme, resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -14,21 +18,34 @@ export function ModeToggle() {
     setMounted(true);
   }, []);
 
+  const { isDark, ariaLabel, Icon, nextTheme } = useMemo(() => {
+    const current = theme === 'system' ? resolvedTheme : theme;
+    const dark = current === 'dark';
+    const target = dark ? 'light' : 'dark';
+    return {
+      isDark: dark,
+      ariaLabel: `Switch to ${target} mode`,
+      Icon: dark ? Moon : Sun,
+      nextTheme: target,
+    };
+  }, [theme, resolvedTheme]);
+
   if (!mounted) return null;
 
-  const isDark = theme === 'dark';
-  const Icon = isDark ? Moon : Sun;
-  const nextTheme = isDark ? 'light' : 'dark';
-  const label = `Switch to ${nextTheme} mode`;
-
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      aria-label={label}
+    <div
+      className="flex w-full items-center justify-between gap-2 text-left cursor-pointer"
       onClick={() => setTheme(nextTheme)}
     >
-      <Icon className="h-[1.2rem] w-[1.2rem]" />
-    </Button>
+      <div className="flex items-center gap-2 text-sm">
+        <Icon className="size-4" />
+        <span>{label}</span>
+      </div>
+      <Switch
+        checked={isDark}
+        onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')}
+        aria-label={ariaLabel}
+      />
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { BarChart3, Building2, LayoutDashboard, Settings } from 'lucide-react';
+import { BarChart3, Building2, LayoutDashboard, User2 } from 'lucide-react';
 
 export type AppRoute = {
   name: string;
@@ -17,9 +17,7 @@ export const ROUTES = {
   DASHBOARD: '/',
   COMPANIES: '/companies',
   ANALYTICS: '/analytics',
-
-  SETTINGS: '/settings',
-  SETTINGS_PROFILE: '/settings/profile',
+  PROFILE: '/profile',
 } as const;
 
 export const APP_ROUTES: AppRoute[] = [
@@ -53,18 +51,9 @@ export const APP_ROUTES: AppRoute[] = [
     showInSidebar: true,
   },
   {
-    name: 'Settings',
-    path: ROUTES.SETTINGS,
-    icon: Settings,
+    name: 'Profile',
+    path: ROUTES.PROFILE,
+    icon: User2,
     auth: true,
-    showInSidebar: true,
-    children: [
-      {
-        name: 'Profile',
-        path: ROUTES.SETTINGS_PROFILE,
-        auth: true,
-        showInSidebar: true,
-      },
-    ],
   },
 ];

@@ -1,9 +1,11 @@
 'use client';
 
+import { ProfileMenu } from '@/components/layout/profile-menu';
 import { APP_ROUTES, type AppRoute } from '@/shared/config/routes.config';
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarHeader,
   SidebarMenu,
@@ -110,6 +112,10 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>{renderNav(privateTopLevel)}</SidebarGroup>
       </SidebarContent>
+
+      <SidebarFooter>
+        <ProfileMenu />
+      </SidebarFooter>
 
       <SidebarRail />
     </Sidebar>
