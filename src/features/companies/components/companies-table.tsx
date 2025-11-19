@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/table';
 
 import { Card } from '@/components/ui/card';
-import { AddCompanyButton } from '@/features/companies/components/add-company-button';
+import { CreateCompanyButton } from '@/features/companies/components/create-company-button';
 import { DeleteCompanyButton } from '@/features/companies/components/delete-company-button';
 import { EditCompanyButton } from '@/features/companies/components/edit-company-button';
 import { ExternalLink } from '@/shared/ui/external-link';
@@ -29,7 +29,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
             Manage companies connected to your workspace.
           </p>
         </div>
-        <AddCompanyButton />
+        <CreateCompanyButton />
       </div>
 
       <Card className="p-0 overflow-hidden">

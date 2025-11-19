@@ -4,14 +4,14 @@ import { Button } from '@/components/ui/button';
 import { useDialog } from '@/features/dialogs/use-dialog';
 import { Plus } from 'lucide-react';
 
-export function AddCompanyButton() {
+export function CreateCompanyButton() {
   const { openDialog } = useDialog();
 
   return (
     <Button
       type="button"
       onClick={() =>
-        openDialog('add-company', {
+        openDialog('create-company', {
           title: 'Create Company',
           description: 'Add a new company to your workspace.',
         })

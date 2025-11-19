@@ -8,6 +8,6 @@ export interface DialogPropsMap {
   confirm: BaseDialogProps & ConfirmDialogProps;
   form: BaseDialogProps & FormDialogProps;
   error: BaseDialogProps & ErrorDialogProps;
-  'add-company': BaseDialogProps;
+  'create-company': BaseDialogProps;
   'edit-company': BaseDialogProps & EditCompanyDialogProps;
 }

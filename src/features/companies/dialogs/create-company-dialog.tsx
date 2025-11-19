@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { createCompany } from '../actions/create-company.action';
 
-export function AddCompanyDialog() {
+export function CreateCompanyDialog() {
   const router = useRouter();
   const { closeDialog } = useDialog();
 
