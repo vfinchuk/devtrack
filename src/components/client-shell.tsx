@@ -12,9 +12,7 @@ import {
 
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
-import LogoutButton from '@/features/auth/components/logout-button';
 import { DialogHost } from '@/features/dialogs/dialog-host';
-import { ModeToggle } from '@/shared/theme/mode-toggle';
 
 export default function ClientShell({
   children,
@@ -38,10 +36,6 @@ export default function ClientShell({
               <div className="flex items-center gap-2">
                 <SidebarTrigger />
                 <Breadcrumbs />
-              </div>
-              <div className="flex items-center gap-2">
-                <ModeToggle />
-                <LogoutButton />
               </div>
             </header>
 
