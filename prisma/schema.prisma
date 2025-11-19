@@ -8,60 +8,61 @@ datasource db {
 }
 
 enum ApplicationStatus {
-  applied
-  screening
-  interview
-  offer
-  rejected
-  on_hold
-  withdrawn
+  APPLIED
+  SCREENING
+  INTERVIEW
+  OFFER
+  REJECTED
+  ON_HOLD
+  WITHDRAWN
 }
 
 enum InterviewStage {
-  screening
-  tech
-  system_design
-  manager
-  hr
-  offer_call
-  other
+  SCREENING
+  TECH
+  SYSTEM_DESIGN
+  MANAGER
+  HR
+  OFFER_CALL
+  OTHER
 }
 
 enum InterviewType {
-  phone
-  video
-  onsite
-  task
+  PHONE
+  VIDEO
+  ONSITE
+  TASK
 }
 
 enum Source {
-  linkedin
-  justjoin
-  nofluff
-  company_site
-  referral
-  other
+  LINKEDIN
+  JUSTJOIN
+  NOFLUFF
+  COMPANY_SITE
+  REFERRAL
+  OTHER
 }
 
 enum AttachmentKind {
-  resume
-  other
+  RESUME
+  OTHER
 }
 
 enum Seniority {
-  junior
-  middle
-  senior
-  lead
-  principal
+  JUNIOR
+  MIDDLE
+  SENIOR
+  LEAD
+  PRINCIPAL
 }
 
 enum EmploymentType {
-  b2b
-  uop
-  contract
-  freelance
+  B2B
+  UOP
+  CONTRACT
+  FREELANCE
 }
+
 
 enum Currency {
   PLN
@@ -132,10 +133,10 @@ model Application {
   company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
   role   String
-  status ApplicationStatus @default(applied)
+  status ApplicationStatus @default(APPLIED)
 
-  seniority      Seniority      @default(middle)
-  employmentType EmploymentType @default(b2b)
+  seniority      Seniority      @default(MIDDLE)
+  employmentType EmploymentType @default(B2B)
 
   source    Source?
   sourceUrl String?
@@ -213,7 +214,7 @@ model Attachment {
   applicationId String
   application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
 
-  kind     AttachmentKind @default(other)
+  kind     AttachmentKind @default(OTHER)
   filename String
   mime     String
   size     Int
