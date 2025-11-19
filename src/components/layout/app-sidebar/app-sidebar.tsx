@@ -1,6 +1,7 @@
 'use client';
 
 import { ProfileMenu } from '@/components/layout/profile-menu';
+import { APP_VERSION } from '@/shared/config/app.config';
 import { APP_ROUTES, type AppRoute } from '@/shared/config/routes.config';
 import {
   Sidebar,
@@ -101,7 +102,9 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">DevTrack</span>
-                  <span className="text-xs text-muted-foreground">v1.0.0</span>
+                  <span className="text-xs text-muted-foreground">
+                    v {APP_VERSION}
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -115,6 +118,12 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarFooter>
         <ProfileMenu />
+
+        <div className="flex items-center justify-center">
+          <span className="text-xs text-muted-foreground">
+            app version {APP_VERSION}
+          </span>
+        </div>
       </SidebarFooter>
 
       <SidebarRail />

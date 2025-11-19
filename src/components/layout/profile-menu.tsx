@@ -45,8 +45,6 @@ export function ProfileMenu() {
         </SidebarMenuButton>
       </SidebarMenuItem>
 
-      <SidebarSeparator className="my-1" />
-
       <SidebarMenuItem>
         <SidebarMenuButton
           className="flex items-center gap-2 text-destructive hover:bg-destructive/10 cursor-pointer"
@@ -57,6 +55,7 @@ export function ProfileMenu() {
           <span>{isLoggingOut ? 'Logging out…' : 'Logout'}</span>
         </SidebarMenuButton>
       </SidebarMenuItem>
+      <SidebarSeparator />
     </SidebarMenu>
   );
 }
