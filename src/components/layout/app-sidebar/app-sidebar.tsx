@@ -3,6 +3,7 @@
 import { ProfileMenu } from '@/components/layout/profile-menu';
 import { APP_VERSION } from '@/shared/config/app.config';
 import { APP_ROUTES, type AppRoute } from '@/shared/config/routes.config';
+import { useActivePath } from '@/shared/hooks/use-active-path';
 import {
   Sidebar,
   SidebarContent,
@@ -19,14 +20,9 @@ import {
 } from '@/shared/ui/layout/sidebar';
 import { GalleryVerticalEnd } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname();
-
-  const isActive = (path: string) => {
-    return path === '/' ? pathname === '/' : pathname === path;
-  };
+  const { isActive } = useActivePath();
 
   const renderNav = (routes: AppRoute[]) => (
     <SidebarMenu>
@@ -40,11 +36,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
 
           return (
             <SidebarMenuItem key={route.path}>
-              <SidebarMenuButton
-                asChild
-                data-active={active ? '' : undefined}
-                aria-current={active ? 'page' : undefined}
-              >
+              <SidebarMenuButton asChild isActive={active}>
                 <Link href={route.path} className="flex items-center gap-2">
                   {Icon ? <Icon className="size-4" /> : null}
                   <span>{route.name}</span>
@@ -60,11 +52,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                       const ChildIcon = child.icon;
                       return (
                         <SidebarMenuSubItem key={child.path}>
-                          <SidebarMenuSubButton
-                            asChild
-                            isActive={childActive}
-                            aria-current={childActive ? 'page' : undefined}
-                          >
+                          <SidebarMenuSubButton asChild isActive={childActive}>
                             <Link
                               href={child.path}
                               className="flex items-center gap-2"

@@ -6,6 +6,7 @@ import { useTransition } from 'react';
 
 import { logout } from '@/features/auth/actions/logout.action';
 import { ROUTES } from '@/shared/config/routes.config';
+import { useActivePath } from '@/shared/hooks/use-active-path';
 import { ModeToggle } from '@/shared/theme/mode-toggle';
 import {
   SidebarMenu,
@@ -15,6 +16,7 @@ import {
 } from '@/shared/ui/layout/sidebar';
 
 export function ProfileMenu() {
+  const { isActive } = useActivePath();
   const [isLoggingOut, startTransition] = useTransition();
 
   const handleClickLogoutBtn = () => {
@@ -26,7 +28,7 @@ export function ProfileMenu() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <SidebarMenuButton asChild>
+        <SidebarMenuButton asChild isActive={isActive(ROUTES.PROFILE)}>
           <Link href={ROUTES.PROFILE} className="flex items-center gap-2">
             <UserRound className="size-4" />
             <span>Profile</span>
