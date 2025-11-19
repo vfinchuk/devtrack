@@ -100,12 +100,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <GalleryVerticalEnd className="size-4" />
                 </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">DevTrack</span>
-                  <span className="text-xs text-muted-foreground">
-                    v {APP_VERSION}
-                  </span>
-                </div>
+                <span className="font-medium">DevTrack</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
