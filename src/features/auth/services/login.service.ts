@@ -1,7 +1,7 @@
 import { ConflictError, err, InternalError, ok, Result } from '@/core';
 import { verifyPassword } from '@/features/auth/server/password-hash';
 import { prisma } from '@/server/db/prisma';
-import { LoginDTO } from '../schemas/login.schema';
+import { LoginDTO } from '../schemas/auth.schema';
 
 export async function loginService(
   input: LoginDTO,

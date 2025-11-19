@@ -6,7 +6,7 @@ import { createAuthSession } from '@/features/auth/server/auth';
 import { ROUTES } from '@/shared/config/routes.config';
 import type { LoginField, LoginState } from '@/types/auth';
 import { redirect } from 'next/navigation';
-import { loginSchema, type LoginDTO } from '../schemas/login.schema';
+import { LoginDTO, LoginSchema } from '../schemas/auth.schema';
 import { loginService } from '../services/login.service';
 
 export async function login(
@@ -18,7 +18,7 @@ export async function login(
     password: String(formData.get('password') ?? ''),
   };
 
-  const parsed = loginSchema.safeParse(raw);
+  const parsed = LoginSchema.safeParse(raw);
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors;
     return fieldErrors<LoginField>({ email: fe.email, password: fe.password });

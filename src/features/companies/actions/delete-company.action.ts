@@ -5,13 +5,13 @@ import { requireUserId } from '@/features/auth/server/require-user';
 import { ROUTES } from '@/shared/config/routes.config';
 import type { DeleteCompanyField } from '@/types/companies';
 import { revalidatePath } from 'next/cache';
-import { deleteCompanySchema } from '../schemas/company.schema';
+import { DeleteCompanySchema } from '../schemas/company.schema';
 import { deleteCompanyRaw } from '../services/companies.service';
 
 export async function deleteCompany(id: string) {
   const userId = await requireUserId();
 
-  const parsed = deleteCompanySchema.safeParse({
+  const parsed = DeleteCompanySchema.safeParse({
     id: id.trim(),
   });
 

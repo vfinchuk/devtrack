@@ -2,15 +2,13 @@
 
 import { ConflictError } from '@/core/errors';
 import { fieldErrors, formError } from '@/core/result';
-import {
-  signUpSchema,
-  type SignUpDTO,
-} from '@/features/auth/schemas/signup.schema';
+
 import { createAuthSession } from '@/features/auth/server/auth';
 import { signUpService } from '@/features/auth/services/auth.service';
 import { ROUTES } from '@/shared/config/routes.config';
 import type { SignupField, SignupState } from '@/types/auth';
 import { redirect } from 'next/navigation';
+import { SignUpDTO, SignUpSchema } from '../schemas/auth.schema';
 
 export async function signup(
   _prev: SignupState,
@@ -23,7 +21,7 @@ export async function signup(
     confirmPassword: String(formData.get('confirm-password') ?? ''),
   };
 
-  const parsed = signUpSchema.safeParse(raw);
+  const parsed = SignUpSchema.safeParse(raw);
   if (!parsed.success) {
     const fe = parsed.error.flatten().fieldErrors;
     return fieldErrors<SignupField>({

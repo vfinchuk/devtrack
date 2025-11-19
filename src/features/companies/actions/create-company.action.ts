@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache';
 
 import {
   CreateCompanyDTO,
-  createCompanySchema,
+  CreateCompanySchema,
 } from '../schemas/company.schema';
 import { createCompanyRaw } from '../services/companies.service';
 
@@ -19,7 +19,7 @@ export async function createCompany(
 ) {
   const userId = await requireUserId();
 
-  const parsed = createCompanySchema.safeParse({
+  const parsed = CreateCompanySchema.safeParse({
     name: String(formData.get('name') ?? '').trim(),
     website: String(formData.get('website') ?? '').trim(),
     location: String(formData.get('location') ?? '').trim(),

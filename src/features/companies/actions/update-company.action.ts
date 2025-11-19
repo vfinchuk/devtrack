@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache';
 
 import {
   UpdateCompanyDTO,
-  updateCompanySchema,
+  UpdateCompanySchema,
 } from '../schemas/company.schema';
 import { updateCompanyRaw } from '../services/companies.service';
 
@@ -26,7 +26,7 @@ export async function updateCompany(
       'Invalid company id. Please reload the page and try again.',
     );
   }
-  const parsed = updateCompanySchema.safeParse({
+  const parsed = UpdateCompanySchema.safeParse({
     id,
     name: String(formData.get('name') ?? '').trim(),
     website: String(formData.get('website') ?? '').trim(),

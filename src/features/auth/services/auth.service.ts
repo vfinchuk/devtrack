@@ -13,8 +13,7 @@ import {
   ok,
   type Result,
 } from '@/core';
-
-import type { SignUpDTO } from '@/features/auth/schemas/signup.schema';
+import { SignUpDTO } from '../schemas/auth.schema';
 
 export async function signUpService(
   input: SignUpDTO,
