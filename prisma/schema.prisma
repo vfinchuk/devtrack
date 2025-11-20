@@ -34,7 +34,7 @@ enum InterviewType {
   TASK
 }
 
-enum Source {
+enum ApplicationSource {
   LINKEDIN
   JUSTJOIN
   NOFLUFF
@@ -48,7 +48,7 @@ enum AttachmentKind {
   OTHER
 }
 
-enum Seniority {
+enum ApplicationSeniority {
   JUNIOR
   MIDDLE
   SENIOR
@@ -135,10 +135,10 @@ model Application {
   role   String
   status ApplicationStatus @default(APPLIED)
 
-  seniority      Seniority      @default(MIDDLE)
+  seniority      ApplicationSeniority      @default(MIDDLE)
   employmentType EmploymentType @default(B2B)
 
-  source    Source?
+  source    ApplicationSource?
   sourceUrl String?
 
   salaryMin        Int?
