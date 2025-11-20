@@ -14,7 +14,7 @@ type StateWithFormError<TField extends string> =
   | { ok: true }
   | { ok: false; error: FormError<TField> };
 
-export type PasswordFieldProps<TField extends string> = {
+export type FormPasswordFieldProps<TField extends string> = {
   state: StateWithFormError<TField>;
   field: TField;
   label: string;
@@ -29,7 +29,7 @@ export type PasswordFieldProps<TField extends string> = {
   >;
 };
 
-export function PasswordField<TField extends string>({
+export function FormPasswordField<TField extends string>({
   state,
   field,
   label,
@@ -39,7 +39,7 @@ export function PasswordField<TField extends string>({
   id,
   name,
   inputProps,
-}: PasswordFieldProps<TField>) {
+}: FormPasswordFieldProps<TField>) {
   const [visible, setVisible] = React.useState(false);
 
   const fieldId = id ?? field;
