@@ -1,9 +1,9 @@
 import {
+  ApplicationSeniority,
+  ApplicationSource,
   ApplicationStatus,
   Currency,
   EmploymentType,
-  Seniority,
-  Source,
 } from '@prisma/client';
 import 'server-only';
 import { z } from 'zod';
@@ -15,10 +15,10 @@ export const CreateApplicationSchema = z.object({
   role: z.string().min(2, 'Role is required').max(200),
 
   status: z.enum(ApplicationStatus).default(ApplicationStatus.APPLIED),
-  seniority: z.enum(Seniority).default(Seniority.MIDDLE),
+  seniority: z.enum(ApplicationSeniority).default(ApplicationSeniority.MIDDLE),
   employmentType: z.enum(EmploymentType).default(EmploymentType.B2B),
 
-  source: z.enum(Source).optional(),
+  source: z.enum(ApplicationSource).optional(),
   sourceUrl: z.string().url().optional(),
 
   // Int? але з форми може прийти строка → coerce
@@ -36,6 +36,7 @@ export const CreateApplicationSchema = z.object({
 });
 
 export type CreateApplicationDTO = z.infer<typeof CreateApplicationSchema>;
+export type ApplicationFormField = keyof CreateApplicationDTO;
 
 /* -------------------- UPDATE -------------------- */
 

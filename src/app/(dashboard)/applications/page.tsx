@@ -1,7 +1,10 @@
+import { ApplicationsTable } from '@/features/applications/components/applications-table';
+import { getApplications } from '@/features/applications/queries';
+import { requireUserId } from '@/features/auth/server/require-user';
+
 export default async function ApplicationPage() {
-  return (
-    <>
-      <h1>Application Page</h1>
-    </>
-  );
+  const userId = await requireUserId();
+  const applications = await getApplications(userId);
+
+  return <ApplicationsTable applications={applications} />;
 }

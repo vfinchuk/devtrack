@@ -4,14 +4,17 @@ import { useDialog } from '@/features/dialogs/use-dialog';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
 import { FormDialog } from '@/shared/ui/overlays/form-dialog';
+import { useAppDispatch } from '@/store/hooks';
 import type { CreateCompanyField, CreateCompanyState } from '@/types/companies';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
 import { createCompany } from '../actions/create-company.action';
+import { setLastCreatedCompanyId } from '../store/companies-ui.slice';
 
 export function CreateCompanyDialog() {
   const router = useRouter();
   const { closeDialog } = useDialog();
+  const dispatch = useAppDispatch();
 
   const [state, formAction, pending] = useActionState<
     CreateCompanyState,
@@ -19,6 +22,8 @@ export function CreateCompanyDialog() {
   >(async (_prev, formData) => {
     const res = await createCompany(_prev, formData);
     if (res?.ok) {
+      dispatch(setLastCreatedCompanyId(res.value.id));
+
       router.refresh();
       closeDialog();
     }

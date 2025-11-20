@@ -57,8 +57,8 @@ export function EditCompanyDialog({
           label="Name"
           placeholder="Acme Inc"
           required
+          defaultValue={name}
           inputProps={{
-            defaultValue: name,
             autoFocus: true,
           }}
         />
@@ -68,9 +68,7 @@ export function EditCompanyDialog({
           field="website"
           label="Website"
           placeholder="www.company.com"
-          inputProps={{
-            defaultValue: website || '',
-          }}
+          defaultValue={website || ''}
         />
 
         <FormField<UpdateCompanyField>
@@ -78,9 +76,7 @@ export function EditCompanyDialog({
           field="location"
           label="Location"
           placeholder="Kyiv"
-          inputProps={{
-            defaultValue: location || '',
-          }}
+          defaultValue={location || ''}
         />
       </Form>
     </FormDialog>

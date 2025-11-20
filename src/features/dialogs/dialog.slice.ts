@@ -1,3 +1,5 @@
+'use client';
+
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { DialogPropsMap } from './dialog.types';
 

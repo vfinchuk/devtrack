@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Table,
   TableBody,
@@ -7,17 +9,23 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { CreateCompanyButton } from '@/features/companies/components/create-company-button';
-import { DeleteCompanyButton } from '@/features/companies/components/delete-company-button';
-import { EditCompanyButton } from '@/features/companies/components/edit-company-button';
 import { ExternalLink } from '@/shared/ui/external-link';
+import { IconButton } from '@/shared/ui/icon-button';
 import { Company } from '@prisma/client';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { useCompanyDialogs } from '../dialogs/use-company-dialog';
 
 type CompaniesTableProps = {
   companies: Company[];
 };
 export function CompaniesTable({ companies }: CompaniesTableProps) {
+  const {
+    openCreateCompanyDialog,
+    openEditCompanyDialog,
+    openDeleteCompanyDialog,
+  } = useCompanyDialogs();
   const hasCompanies = companies.length > 0;
 
   return (
@@ -29,7 +37,13 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
             Manage companies connected to your workspace.
           </p>
         </div>
-        <CreateCompanyButton />
+        <Button
+          type="button"
+          onClick={() => openCreateCompanyDialog()}
+          startIcon={<Plus />}
+        >
+          Add new company
+        </Button>
       </div>
 
       <Card className="p-0 overflow-hidden">
@@ -72,10 +86,17 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
 
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <EditCompanyButton company={company} />
-                      <DeleteCompanyButton
-                        id={company.id}
-                        name={company.name}
+                      <IconButton
+                        size="sm"
+                        variant="outline"
+                        icon={<Pencil />}
+                        onClick={() => openEditCompanyDialog({ company })}
+                      />
+                      <IconButton
+                        size="sm"
+                        variant="destructive"
+                        icon={<Trash2 />}
+                        onClick={() => openDeleteCompanyDialog({ company })}
                       />
                     </div>
                   </TableCell>
