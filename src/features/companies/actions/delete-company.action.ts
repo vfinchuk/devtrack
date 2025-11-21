@@ -13,9 +13,7 @@ export async function deleteCompany(
 ): Promise<Result<{ id: string }, InternalError>> {
   const userId = await requireUserId();
 
-  const parsed = DeleteCompanySchema.safeParse({
-    id: id.trim(),
-  });
+  const parsed = DeleteCompanySchema.safeParse({ id });
 
   if (!parsed.success) {
     return err(new InternalError('Invalid company id'));
