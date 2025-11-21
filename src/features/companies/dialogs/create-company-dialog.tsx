@@ -26,7 +26,7 @@ export function CreateCompanyDialog() {
 
     if (res?.ok) {
       dispatch(setLastCreatedCompanyId(res.value.id));
-      notify.success('Company created successfully');
+      notify.success(`Company "${res.value.name}" created successfully`);
 
       router.refresh();
       closeDialog();

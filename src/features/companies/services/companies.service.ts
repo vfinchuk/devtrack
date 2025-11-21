@@ -14,11 +14,13 @@ export async function getCompaniesByOwner(ownerId: string) {
 export async function createCompanyRaw(
   ownerId: string,
   dto: CreateCompanyDTO,
-): Promise<Result<{ id: string }, ConflictError | InternalError>> {
+): Promise<
+  Result<{ id: string; name: string }, ConflictError | InternalError>
+> {
   try {
     const created = await prisma.company.create({
       data: { ownerId, ...dto },
-      select: { id: true },
+      select: { id: true, name: true },
     });
     return ok(created);
   } catch (e) {

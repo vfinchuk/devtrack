@@ -52,6 +52,8 @@ export function useCompanyDialogs() {
             return;
           }
 
+          notify.success(`Company "${name}" deleted successfully`);
+
           router.refresh();
           closeDialog();
         },

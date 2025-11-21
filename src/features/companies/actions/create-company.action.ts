@@ -48,5 +48,5 @@ export async function createCompany(
   }
 
   revalidatePath(ROUTES.COMPANIES);
-  return ok({ id: res.value.id });
+  return ok({ ...res.value });
 }
