@@ -11,7 +11,7 @@ import {
 } from '@/shared/ui/layout/breadcrumb';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useMemo } from 'react';
+import React from 'react';
 
 const isDefined = <T,>(v: T | undefined): v is T => v !== undefined;
 
@@ -40,19 +40,7 @@ export default function Breadcrumbs() {
 
   const dashboardRoute = ROUTE_MAP.get('/');
 
-  if (pathname === '/' && dashboardRoute) {
-    return (
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbPage>{dashboardRoute.name}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    );
-  }
-
-  const crumbs = useMemo(() => {
+  const crumbs = React.useMemo(() => {
     const segments = pathname.split('/').filter(Boolean);
     const paths = segments.map(
       (_, i) => '/' + segments.slice(0, i + 1).join('/'),
@@ -71,6 +59,18 @@ export default function Breadcrumbs() {
       )
       .filter(isDefined);
   }, [pathname]);
+
+  if (pathname === '/' && dashboardRoute) {
+    return (
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbPage>{dashboardRoute.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    );
+  }
 
   if (!crumbs.length) return null;
 
