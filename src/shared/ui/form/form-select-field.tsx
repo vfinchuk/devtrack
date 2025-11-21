@@ -72,22 +72,12 @@ export function FormSelectField<TField extends string>({
   const [value, setValue] = React.useState(() => defaultValue ?? '');
 
   React.useEffect(() => {
-    if (!defaultValue) return;
-    if (value) return;
-
-    const existsInOptions = options.some((opt) => opt.value === defaultValue);
-    if (existsInOptions) {
-      setValue(defaultValue);
-    }
-  }, [defaultValue, options, value]);
-
-  React.useEffect(() => {
     if (!forceValue) return;
 
-    const exists = options.some((opt) => opt.value === forceValue);
-    if (!exists) return;
-
-    setValue(forceValue);
+    const exists = options.some((o) => o.value === forceValue);
+    if (exists) {
+      setValue(forceValue);
+    }
   }, [forceValue, options]);
 
   return (
