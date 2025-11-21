@@ -1,6 +1,8 @@
 'use client';
 
+import { isGlobalError } from '@/core';
 import { useDialog } from '@/features/dialogs/use-dialog';
+import { notify } from '@/shared/lib/toast';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
 import { FormDialog } from '@/shared/ui/overlays/form-dialog';
@@ -21,12 +23,20 @@ export function CreateCompanyDialog() {
     FormData
   >(async (_prev, formData) => {
     const res = await createCompany(_prev, formData);
+
     if (res?.ok) {
       dispatch(setLastCreatedCompanyId(res.value.id));
+      notify.success('Company created successfully');
 
       router.refresh();
       closeDialog();
+      return res;
     }
+
+    if (isGlobalError(res.error)) {
+      notify.error(res.error.message);
+    }
+
     return res;
   }, null);
 

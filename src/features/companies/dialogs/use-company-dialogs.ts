@@ -2,6 +2,7 @@
 
 import { DialogPropsMap } from '@/features/dialogs/dialog.types';
 import { useDialog } from '@/features/dialogs/use-dialog';
+import { notify } from '@/shared/lib/toast';
 import { Company } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { deleteCompany } from '../actions/delete-company.action';
@@ -43,12 +44,11 @@ export function useCompanyDialogs() {
           const res = await deleteCompany(id);
 
           if (!res.ok) {
-            // toast({
-            //   variant: 'destructive',
-            //   title: 'Could not delete application',
-            //   description:
-            //     'Something went wrong while deleting the application. Please try again.',
-            // });
+            notify.error('Could not delete application', {
+              description:
+                'Something went wrong while deleting the application. Please try again.',
+            });
+
             return;
           }
 

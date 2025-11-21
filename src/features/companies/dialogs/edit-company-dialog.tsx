@@ -1,6 +1,8 @@
 'use client';
 
+import { isGlobalError } from '@/core';
 import { useDialog } from '@/features/dialogs/use-dialog';
+import { notify } from '@/shared/lib/toast';
 import { Form } from '@/shared/ui/form/form';
 import { FormField } from '@/shared/ui/form/form-field';
 import { BaseDialogProps } from '@/shared/ui/overlays/base-dialog';
@@ -29,9 +31,18 @@ export function EditCompanyDialog({
 
     const res = await updateCompany(prev, formData);
     if (res?.ok) {
+      notify.success('Company updated successfully');
+
       router.refresh();
       closeDialog();
+
+      return res;
     }
+
+    if (isGlobalError(res.error)) {
+      notify.error(res.error.message);
+    }
+
     return res;
   }, null);
 
