@@ -12,7 +12,9 @@ export default async function EditApplicationPage({ params }: Props) {
   const userId = await requireUserId();
   const companies = await getCompanies(userId);
 
-  const application = await getApplicationById(userId, params.id);
+  const { id: applicationId } = await params;
+
+  const application = await getApplicationById(userId, applicationId);
 
   if (!application) {
     notFound();
