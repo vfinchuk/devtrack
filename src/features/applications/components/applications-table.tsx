@@ -114,9 +114,7 @@ export function ApplicationsTable({ applications }: ApplicationsTableProps) {
                   </TableCell>
 
                   <TableCell className="text-sm text-muted-foreground">
-                    <div className="flex flex-col gap-0.5">
-                      <span>{application.employmentType}</span>
-                    </div>
+                    {formatEnumLabel(application.employmentType)}
                   </TableCell>
 
                   <TableCell className="text-sm">
