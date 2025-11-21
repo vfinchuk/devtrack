@@ -1,7 +1,7 @@
 import { ConflictError, InternalError } from '@/core/errors';
 import { err, ok, Result } from '@/core/result';
 import { prisma } from '@/server/db/prisma';
-import { Prisma } from '@prisma/client';
+import { Company, Prisma } from '@prisma/client';
 import { CreateCompanyDTO, UpdateCompanyDTO } from '../schemas/company.schema';
 
 export type CompanyWithRelations = Prisma.CompanyGetPayload<{
@@ -10,11 +10,18 @@ export type CompanyWithRelations = Prisma.CompanyGetPayload<{
   };
 }>;
 
-export async function getCompaniesByOwner(
-  ownerId: string,
+export async function getCompaniesRaw(userId: string): Promise<Company[]> {
+  return prisma.company.findMany({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+  });
+}
+
+export async function getCompaniesWithRelationsRaw(
+  userId: string,
 ): Promise<CompanyWithRelations[]> {
   return prisma.company.findMany({
-    where: { ownerId },
+    where: { userId },
     orderBy: {
       applications: {
         _count: 'desc',
@@ -32,14 +39,14 @@ export async function getCompaniesByOwner(
 }
 
 export async function createCompanyRaw(
-  ownerId: string,
+  userId: string,
   dto: CreateCompanyDTO,
 ): Promise<
   Result<{ id: string; name: string }, ConflictError | InternalError>
 > {
   try {
     const created = await prisma.company.create({
-      data: { ownerId, ...dto },
+      data: { userId, ...dto },
       select: { id: true, name: true },
     });
     return ok(created);
@@ -55,12 +62,12 @@ export async function createCompanyRaw(
 }
 
 export async function updateCompanyRaw(
-  ownerId: string,
+  userId: string,
   { id, name }: UpdateCompanyDTO,
 ): Promise<Result<{ id: string }, ConflictError | InternalError>> {
   try {
     const updated = await prisma.company.update({
-      where: { id, ownerId },
+      where: { id, userId },
       data: { name },
       select: { id: true },
     });
@@ -77,12 +84,12 @@ export async function updateCompanyRaw(
 }
 
 export async function deleteCompanyRaw(
-  ownerId: string,
+  userId: string,
   id: string,
 ): Promise<Result<{ id: string }, InternalError>> {
   try {
     const deleted = await prisma.company.delete({
-      where: { id, ownerId },
+      where: { id, userId },
       select: { id: true },
     });
     return ok(deleted);
