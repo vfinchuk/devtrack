@@ -191,7 +191,7 @@ export function ApplicationFormShell({
               field="currency"
               label="Currency"
               placeholder="Select salary currency"
-              options={buildEnumOptions(Currency)}
+              options={buildEnumOptions(Currency, 'uppercase')}
               defaultValue={initial.currency}
             />
           </div>
