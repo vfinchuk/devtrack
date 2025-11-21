@@ -44,9 +44,9 @@ export function useCompanyDialogs() {
           const res = await deleteCompany(id);
 
           if (!res.ok) {
-            notify.error('Could not delete application', {
+            notify.error('Could not delete company', {
               description:
-                'Something went wrong while deleting the application. Please try again.',
+                'Something went wrong while deleting the company. Please try again.',
             });
 
             return;
