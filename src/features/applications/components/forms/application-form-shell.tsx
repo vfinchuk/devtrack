@@ -89,7 +89,6 @@ export function ApplicationFormShell({
         action={action}
         className="space-y-2"
       >
-        {/* BASICS */}
         <section className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Basics
@@ -169,7 +168,6 @@ export function ApplicationFormShell({
           </div>
         </section>
 
-        {/* COMPENSATION */}
         <section className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Compensation
@@ -220,7 +218,6 @@ export function ApplicationFormShell({
           />
         </section>
 
-        {/* META */}
         <section className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             Meta
