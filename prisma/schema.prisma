@@ -107,8 +107,8 @@ model Key {
 model Company {
   id String @id @default(cuid())
 
-  ownerId String
-  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   name     String
   website  String?
@@ -119,8 +119,8 @@ model Company {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([ownerId, name])
-  @@index([ownerId, name])
+  @@unique([userId, name])
+  @@index([userId, name])
 }
 
 model Application {
