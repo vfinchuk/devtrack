@@ -10,6 +10,7 @@ import {
 import { Card } from '@/components/ui/card';
 import { ExternalLink } from '@/shared/ui/external-link';
 import { Company } from '@prisma/client';
+import { Plus } from 'lucide-react';
 import { AddCompanyButton } from './add-company-button';
 import { CompaniesTableActions } from './companies-table-actions';
 
@@ -28,7 +29,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
             Manage companies connected to your workspace.
           </p>
         </div>
-        <AddCompanyButton />
+        <AddCompanyButton startIcon={<Plus />} />
       </div>
 
       <Card className="p-0 overflow-hidden">

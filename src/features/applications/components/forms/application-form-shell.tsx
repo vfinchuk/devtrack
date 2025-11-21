@@ -1,7 +1,4 @@
-'use client';
-
-import { Button } from '@/components/ui/button';
-import { useCompanyDialogs } from '@/features/companies/dialogs/use-company-dialogs';
+import { AddCompanyButton } from '@/features/companies/components/add-company-button';
 import { selectLastCreatedCompanyId } from '@/features/companies/store/companies-ui.selectors';
 import { resetLastCreatedCompanyId } from '@/features/companies/store/companies-ui.slice';
 import { buildEnumOptions } from '@/shared/forms/build-enum-options';
@@ -48,7 +45,6 @@ export function ApplicationFormShell({
   action,
 }: ApplicationFormShellProps) {
   const dispatch = useAppDispatch();
-  const { openCreateCompanyDialog } = useCompanyDialogs();
 
   const isEdit = mode === 'edit';
   const hasCompanies = companies.length > 0;
@@ -125,14 +121,7 @@ export function ApplicationFormShell({
                     </p>
                   )
                 }
-                inlineAddon={
-                  <Button
-                    type="button"
-                    onClick={() => openCreateCompanyDialog()}
-                  >
-                    New
-                  </Button>
-                }
+                inlineAddon={<AddCompanyButton label="New" />}
               />
             </div>
 
