@@ -4,10 +4,30 @@ import { prisma } from '@/server/db/prisma';
 import { Prisma } from '@prisma/client';
 import { CreateCompanyDTO, UpdateCompanyDTO } from '../schemas/company.schema';
 
-export async function getCompaniesByOwner(ownerId: string) {
+export type CompanyWithRelations = Prisma.CompanyGetPayload<{
+  include: {
+    applications: true;
+  };
+}>;
+
+export async function getCompaniesByOwner(
+  ownerId: string,
+): Promise<CompanyWithRelations[]> {
   return prisma.company.findMany({
     where: { ownerId },
-    orderBy: { createdAt: 'desc' },
+    orderBy: {
+      applications: {
+        _count: 'desc',
+      },
+    },
+    include: {
+      applications: true,
+      _count: {
+        select: {
+          applications: true,
+        },
+      },
+    },
   });
 }
 

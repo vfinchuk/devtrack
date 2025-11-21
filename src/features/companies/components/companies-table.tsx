@@ -9,13 +9,14 @@ import {
 
 import { Card } from '@/components/ui/card';
 import { ExternalLink } from '@/shared/ui/external-link';
-import { Company } from '@prisma/client';
+import { formatDate } from '@/shared/utils/format-date';
 import { Plus } from 'lucide-react';
+import { CompanyWithRelations } from '../services/companies.service';
 import { AddCompanyButton } from './add-company-button';
 import { CompaniesTableActions } from './companies-table-actions';
 
 type CompaniesTableProps = {
-  companies: Company[];
+  companies: CompanyWithRelations[];
 };
 export function CompaniesTable({ companies }: CompaniesTableProps) {
   const hasCompanies = companies.length > 0;
@@ -44,6 +45,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                 <TableHead className="w-[20%]">Name</TableHead>
                 <TableHead className="w-[20%]">Website</TableHead>
                 <TableHead className="w-[20%]">Location</TableHead>
+                <TableHead className="w-[20%]">Applications</TableHead>
                 <TableHead>Created</TableHead>
                 <TableHead className="text-right w-[1%]">Actions</TableHead>
               </TableRow>
@@ -62,12 +64,14 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                     {company.location}
                   </TableCell>
 
+                  <TableCell className="font-medium">
+                    {company.applications.length
+                      ? company.applications.length
+                      : '-'}
+                  </TableCell>
+
                   <TableCell className="text-xs text-muted-foreground">
-                    {company.createdAt.toLocaleDateString('en-GB', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: '2-digit',
-                    })}
+                    {formatDate(company.createdAt)}
                   </TableCell>
 
                   <TableCell className="text-right">
