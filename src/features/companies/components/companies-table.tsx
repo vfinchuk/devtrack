@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Table,
   TableBody,
@@ -9,23 +7,16 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ExternalLink } from '@/shared/ui/external-link';
-import { IconButton } from '@/shared/ui/icon-button';
 import { Company } from '@prisma/client';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
-import { useCompanyDialogs } from '../dialogs/use-company-dialog';
+import { AddCompanyButton } from './add-company-button';
+import { CompaniesTableActions } from './companies-table-actions';
 
 type CompaniesTableProps = {
   companies: Company[];
 };
 export function CompaniesTable({ companies }: CompaniesTableProps) {
-  const {
-    openCreateCompanyDialog,
-    openEditCompanyDialog,
-    openDeleteCompanyDialog,
-  } = useCompanyDialogs();
   const hasCompanies = companies.length > 0;
 
   return (
@@ -37,13 +28,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
             Manage companies connected to your workspace.
           </p>
         </div>
-        <Button
-          type="button"
-          onClick={() => openCreateCompanyDialog()}
-          startIcon={<Plus />}
-        >
-          Add new company
-        </Button>
+        <AddCompanyButton />
       </div>
 
       <Card className="p-0 overflow-hidden">
@@ -85,20 +70,7 @@ export function CompaniesTable({ companies }: CompaniesTableProps) {
                   </TableCell>
 
                   <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <IconButton
-                        size="sm"
-                        variant="outline"
-                        icon={<Pencil />}
-                        onClick={() => openEditCompanyDialog({ company })}
-                      />
-                      <IconButton
-                        size="sm"
-                        variant="destructive"
-                        icon={<Trash2 />}
-                        onClick={() => openDeleteCompanyDialog({ company })}
-                      />
-                    </div>
+                    <CompaniesTableActions company={company} />
                   </TableCell>
                 </TableRow>
               ))}

@@ -40,7 +40,18 @@ export function useCompanyDialogs() {
         confirmLabel: 'Delete',
         variant: 'destructive',
         onConfirm: async () => {
-          await deleteCompany(id);
+          const res = await deleteCompany(id);
+
+          if (!res.ok) {
+            // toast({
+            //   variant: 'destructive',
+            //   title: 'Could not delete application',
+            //   description:
+            //     'Something went wrong while deleting the application. Please try again.',
+            // });
+            return;
+          }
+
           router.refresh();
           closeDialog();
         },
