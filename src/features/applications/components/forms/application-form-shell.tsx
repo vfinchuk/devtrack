@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { AddCompanyButton } from '@/features/companies/components/add-company-button';
 import { selectLastCreatedCompanyId } from '@/features/companies/store/companies-ui.selectors';
 import { resetLastCreatedCompanyId } from '@/features/companies/store/companies-ui.slice';
@@ -231,20 +232,17 @@ export function ApplicationFormShell({
         </section>
 
         <div className="flex items-center justify-end gap-2 pt-2">
-          <button
+          <Button
             type="button"
+            variant="outline"
             onClick={onCancel}
             className="text-sm text-muted-foreground"
           >
             Cancel
-          </button>
-          <button
-            type="submit"
-            disabled={pending || !hasCompanies}
-            className="inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
-          >
+          </Button>
+          <Button type="submit" disabled={pending || !hasCompanies}>
             {pending ? (isEdit ? 'Saving…' : 'Creating…') : submitLabel}
-          </button>
+          </Button>
         </div>
       </Form>
     </div>

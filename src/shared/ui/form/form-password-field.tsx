@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { Field, FieldError, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { FormError } from '@/core';
@@ -73,8 +74,9 @@ export function FormPasswordField<TField extends string>({
           {...restInputProps}
         />
 
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={() => setVisible((v) => !v)}
           className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-6 w-6 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           aria-label={visible ? 'Hide password' : 'Show password'}
@@ -84,7 +86,7 @@ export function FormPasswordField<TField extends string>({
           ) : (
             <Eye className="h-4 w-4" />
           )}
-        </button>
+        </Button>
       </div>
 
       <div className="min-h-[1rem]">
