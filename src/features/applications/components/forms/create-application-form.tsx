@@ -1,5 +1,6 @@
 'use client';
 
+import { routes } from '@/shared/config/routes.config';
 import { CreateApplicationState } from '@/types/application';
 import {
   ApplicationSeniority,
@@ -28,7 +29,7 @@ export function CreateApplicationForm({
   >(async (_prev, formData) => {
     const res = await createApplication(_prev, formData);
     if (res?.ok) {
-      router.push('/applications');
+      router.push(routes.applications.details(res.value.id));
       router.refresh();
     }
     return res;

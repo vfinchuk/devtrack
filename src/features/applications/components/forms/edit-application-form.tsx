@@ -6,6 +6,7 @@ import { useActionState } from 'react';
 
 import { ApplicationFormShell } from './application-form-shell';
 
+import { routes } from '@/shared/config/routes.config';
 import { UpdateApplicationState } from '@/types/application';
 import { updateApplication } from '../../actions/update-application.action';
 
@@ -26,7 +27,7 @@ export function EditApplicationForm({
   >(async (_prev, formData) => {
     const res = await updateApplication(_prev, formData);
     if (res?.ok) {
-      router.push('/applications');
+      router.push(routes.applications.details(res.value.id));
       router.refresh();
     }
     return res;

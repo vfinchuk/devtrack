@@ -2,7 +2,7 @@
 
 import { fieldErrors, formError, InternalError, ok } from '@/core';
 import { requireUserId } from '@/features/auth/server/require-user';
-import { ROUTES } from '@/shared/config/routes.config';
+import { routes } from '@/shared/config/routes.config';
 import {
   getBool,
   getDate,
@@ -92,6 +92,6 @@ export async function updateApplication(
     return formError('Unexpected error. Please try again.');
   }
 
-  revalidatePath(ROUTES.APPLICATIONS);
+  revalidatePath(routes.applications.details(id));
   return ok({ id: res.value.id });
 }

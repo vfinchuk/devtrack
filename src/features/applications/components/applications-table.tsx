@@ -11,7 +11,7 @@ import { ExternalLink } from '@/shared/ui/external-link';
 import type { Currency } from '@prisma/client';
 
 import { Button } from '@/components/ui/button';
-import { ROUTES } from '@/shared/config/routes.config';
+import { routes } from '@/shared/config/routes.config';
 import { formatEnumLabel } from '@/shared/forms/build-enum-options';
 import { formatDate } from '@/shared/utils/format-date';
 import { Plus } from 'lucide-react';
@@ -53,7 +53,7 @@ export function ApplicationsTable({ applications }: ApplicationsTableProps) {
         <Button type="button">
           <Link
             className="flex items-center gap-2"
-            href={`${ROUTES.APPLICATIONS}/new`}
+            href={routes.applications.new}
           >
             <Plus className="h-4 w-4" />
             Add new application

@@ -3,7 +3,7 @@
 import { InternalError } from '@/core/errors';
 import { err, ok, Result } from '@/core/result';
 import { requireUserId } from '@/features/auth/server/require-user';
-import { ROUTES } from '@/shared/config/routes.config';
+import { routes } from '@/shared/config/routes.config';
 import { revalidatePath } from 'next/cache';
 
 import {
@@ -30,6 +30,6 @@ export async function deleteApplication(
     return err(res.error);
   }
 
-  revalidatePath(ROUTES.APPLICATIONS);
+  revalidatePath(routes.applications.root);
   return ok({ id: res.value.id });
 }

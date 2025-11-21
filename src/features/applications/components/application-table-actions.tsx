@@ -1,6 +1,6 @@
 'use client';
 
-import { ROUTES } from '@/shared/config/routes.config';
+import { routes } from '@/shared/config/routes.config';
 import { IconButton } from '@/shared/ui/icon-button';
 import { Application } from '@prisma/client';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -18,7 +18,7 @@ const ApplicationTableActions = ({
 
   return (
     <div className="flex justify-end gap-2">
-      <Link href={`${ROUTES.APPLICATIONS}/${application.id}/edit`}>
+      <Link href={routes.applications.edit(application.id)}>
         <IconButton size="sm" icon={<Pencil />} />
       </Link>
 

@@ -19,7 +19,6 @@ export type AppRoute = {
 
 export const ROUTES = {
   AUTH: '/auth',
-
   DASHBOARD: '/',
   APPLICATIONS: '/applications',
   COMPANIES: '/companies',
@@ -71,3 +70,12 @@ export const APP_ROUTES: AppRoute[] = [
     auth: true,
   },
 ];
+
+export const routes = {
+  applications: {
+    root: ROUTES.APPLICATIONS,
+    new: `${ROUTES.APPLICATIONS}/new`,
+    details: (id: string) => `${ROUTES.APPLICATIONS}/${id}`,
+    edit: (id: string) => `${ROUTES.APPLICATIONS}/${id}/edit`,
+  },
+} as const;
