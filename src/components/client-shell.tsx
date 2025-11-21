@@ -13,6 +13,7 @@ import {
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import Breadcrumbs from '@/components/navigation/breadcrumbs';
 import { DialogHost } from '@/features/dialogs/dialog-host';
+import { AppToaster } from '@/shared/providers/app-toaster';
 
 export default function ClientShell({
   children,
@@ -50,6 +51,7 @@ export default function ClientShell({
         </SidebarProvider>
 
         <DialogHost />
+        <AppToaster />
       </ThemeProvider>
     </Provider>
   );
