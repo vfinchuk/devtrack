@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { AddCompanyButton } from '@/features/companies/components/add-company-button';
+import { CreateCompanyButton } from '@/features/companies/components/create-company-button';
 import { selectLastCreatedCompanyId } from '@/features/companies/store/companies-ui.selectors';
 import { resetLastCreatedCompanyId } from '@/features/companies/store/companies-ui.slice';
 import { buildEnumOptions } from '@/shared/forms/build-enum-options';
@@ -68,7 +68,7 @@ export function ApplicationFormShell({
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold">
-            {isEdit ? 'Edit application' : 'Add  application'}
+            {isEdit ? 'Edit application' : 'Create  application'}
           </h1>
           <p className="text-sm text-muted-foreground">
             {isEdit
@@ -122,7 +122,7 @@ export function ApplicationFormShell({
                     </p>
                   )
                 }
-                inlineAddon={<AddCompanyButton label="New" />}
+                inlineAddon={<CreateCompanyButton>Create</CreateCompanyButton>}
               />
             </div>
 

@@ -15,7 +15,7 @@ export function useCompanyDialogs() {
     openCreateCompanyDialog: (props: DialogPropsMap['create-company'] = {}) => {
       openDialog('create-company', {
         title: 'Create Company',
-        description: 'Add a new company to your workspace.',
+        description: 'Create a new company to your workspace.',
         ...props,
       });
     },

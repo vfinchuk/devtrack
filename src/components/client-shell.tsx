@@ -1,19 +1,17 @@
 'use client';
 
-import { store } from '@/store/store';
-import { Provider } from 'react-redux';
-
+import { AppSidebar } from '@/components/layout/app-sidebar';
+import Breadcrumbs from '@/components/navigation/breadcrumbs';
+import { DialogHost } from '@/features/dialogs/dialog-host';
+import { AppToaster } from '@/shared/providers/app-toaster';
 import { ThemeProvider } from '@/shared/theme/theme-provider';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from '@/shared/ui/layout/sidebar';
-
-import { AppSidebar } from '@/components/layout/app-sidebar';
-import Breadcrumbs from '@/components/navigation/breadcrumbs';
-import { DialogHost } from '@/features/dialogs/dialog-host';
-import { AppToaster } from '@/shared/providers/app-toaster';
+import { store } from '@/store/store';
+import { Provider } from 'react-redux';
 
 export default function ClientShell({
   children,
@@ -32,7 +30,8 @@ export default function ClientShell({
 
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset className="min-h-screen">
+
+          <SidebarInset className="h-screen flex flex-col">
             <header className="flex h-16 shrink-0 items-center justify-between border-b bg-background px-4">
               <div className="flex items-center gap-2">
                 <SidebarTrigger />
@@ -43,7 +42,7 @@ export default function ClientShell({
             <main
               id="main"
               role="main"
-              className="flex flex-1 flex-col gap-4 p-4"
+              className="flex-1 min-h-0 overflow-y-auto flex flex-col gap-4 p-4"
             >
               {children}
             </main>

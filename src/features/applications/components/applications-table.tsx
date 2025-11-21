@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
   Table,
@@ -7,14 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ExternalLink } from '@/shared/ui/external-link';
-import type { Currency } from '@prisma/client';
-
-import { Button } from '@/components/ui/button';
 import { routes } from '@/shared/config/routes.config';
 import { formatEnumLabel } from '@/shared/forms/build-enum-options';
+import { ExternalLink } from '@/shared/ui/external-link';
 import { formatDate } from '@/shared/utils/format-date';
-import { Plus } from 'lucide-react';
+import type { Currency } from '@prisma/client';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { ApplicationWithRelations } from '../services/application.service';
 import { ApplicationStatusBadge } from './application-status-badge';
@@ -41,103 +40,94 @@ export function ApplicationsTable({ applications }: ApplicationsTableProps) {
   const hasApplications = applications.length > 0;
 
   return (
-    <section className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold">Applications</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Track your job applications across companies and roles.
-          </p>
-        </div>
-
-        <Button type="button">
-          <Link
-            className="flex items-center gap-2"
-            href={routes.applications.new}
+    <Card
+      className={clsx('flex overflow-auto p-0', {
+        'flex-1 items-center justify-center border-none shadow-none':
+          !hasApplications,
+      })}
+    >
+      {!hasApplications ? (
+        <p className="text-center text-sm text-muted-foreground">
+          No applications yet. Click{' '}
+          <Button
+            asChild
+            variant="link"
+            className="h-auto p-0 px-0.5 align-baseline"
           >
-            <Plus className="h-4 w-4" />
-            Add new application
-          </Link>
-        </Button>
-      </div>
+            <Link href={routes.applications.new}>Create new Application</Link>
+          </Button>{' '}
+          to create your first one.
+        </p>
+      ) : (
+        <Table>
+          <TableHeader className="sticky top-0 z-10 bg-card shadow">
+            <TableRow>
+              <TableHead>Company</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Salary</TableHead>
+              <TableHead>Applied</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
 
-      <Card className="overflow-hidden p-0">
-        {!hasApplications ? (
-          <div className="py-10 text-center text-sm text-muted-foreground">
-            No applications yet. Click &quot;Add application&quot; to create
-            your first one.
-          </div>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Company</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Salary</TableHead>
-                <TableHead>Applied</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
+          <TableBody>
+            {applications.map((application) => (
+              <TableRow key={application.id}>
+                <TableCell>
+                  <div className="flex flex-col">
+                    <span className="font-medium">
+                      {application.company.name}
+                    </span>
 
-            <TableBody>
-              {applications.map((application) => (
-                <TableRow key={application.id}>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      <span className="font-medium">
-                        {application.company.name}
-                      </span>
-
-                      {application.company.website && (
-                        <ExternalLink
-                          href={application.company.website}
-                          normalize
-                          className="text-xs text-muted-foreground"
-                        />
-                      )}
-                    </div>
-                  </TableCell>
-
-                  <TableCell className="font-medium">
-                    <div className="flex flex-col gap-0.5">
-                      <span>{application.role}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {formatEnumLabel(application.seniority)}
-                      </span>
-                    </div>
-                  </TableCell>
-
-                  <TableCell>
-                    <ApplicationStatusBadge status={application.status} />
-                  </TableCell>
-
-                  <TableCell className="text-sm text-muted-foreground">
-                    {formatEnumLabel(application.employmentType)}
-                  </TableCell>
-
-                  <TableCell className="text-sm">
-                    {formatSalary(
-                      application.salaryMin,
-                      application.salaryMax,
-                      application.currency,
+                    {application.company.website && (
+                      <ExternalLink
+                        href={application.company.website}
+                        normalize
+                        className="text-xs text-muted-foreground"
+                      />
                     )}
-                  </TableCell>
+                  </div>
+                </TableCell>
 
-                  <TableCell className="text-xs text-muted-foreground">
-                    {formatDate(application.appliedAt) || 'not set'}
-                  </TableCell>
+                <TableCell className="font-medium">
+                  <div className="flex flex-col gap-0.5">
+                    <span>{application.role}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatEnumLabel(application.seniority)}
+                    </span>
+                  </div>
+                </TableCell>
 
-                  <TableCell className="text-right">
-                    <ApplicationTableActions application={application} />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </Card>
-    </section>
+                <TableCell>
+                  <ApplicationStatusBadge status={application.status} />
+                </TableCell>
+
+                <TableCell className="text-sm text-muted-foreground">
+                  {formatEnumLabel(application.employmentType)}
+                </TableCell>
+
+                <TableCell className="text-sm">
+                  {formatSalary(
+                    application.salaryMin,
+                    application.salaryMax,
+                    application.currency,
+                  )}
+                </TableCell>
+
+                <TableCell className="text-xs text-muted-foreground">
+                  {formatDate(application.appliedAt) || 'not set'}
+                </TableCell>
+
+                <TableCell className="text-right">
+                  <ApplicationTableActions application={application} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </Card>
   );
 }
