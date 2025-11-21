@@ -1,4 +1,3 @@
-// src/features/applications/components/application-forms.tsx
 'use client';
 
 import type { Application, Company } from '@prisma/client';
@@ -15,7 +14,10 @@ type EditApplicationFormProps = {
   companies: Company[];
 };
 
-export function EditApplicationForm({ application }: EditApplicationFormProps) {
+export function EditApplicationForm({
+  application,
+  companies,
+}: EditApplicationFormProps) {
   const router = useRouter();
 
   const [state, formAction, pending] = useActionState<
@@ -42,7 +44,7 @@ export function EditApplicationForm({ application }: EditApplicationFormProps) {
       <ApplicationFormShell
         mode="edit"
         formId="edit-application-form"
-        companies={[]}
+        companies={companies}
         state={state}
         pending={pending}
         initial={application}

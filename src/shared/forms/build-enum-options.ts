@@ -5,7 +5,7 @@ export type SelectOption = {
 
 export type EnumLabelFormat = 'humanize' | 'uppercase' | 'lowercase';
 
-function humanizeEnum(value: string): string {
+export function humanizeEnum(value: string): string {
   return value
     .toLowerCase()
     .split('_')
@@ -13,7 +13,10 @@ function humanizeEnum(value: string): string {
     .join(' ');
 }
 
-function formatEnumLabel(value: string, format: EnumLabelFormat): string {
+export function formatEnumLabel(
+  value: string,
+  format: EnumLabelFormat = 'humanize',
+): string {
   switch (format) {
     case 'uppercase':
       return value.toUpperCase();

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useCompanyDialogs } from '@/features/companies/dialogs/use-company-dialog';
+import { useCompanyDialogs } from '@/features/companies/dialogs/use-company-dialogs';
 import { selectLastCreatedCompanyId } from '@/features/companies/store/companies-ui.selectors';
 import { resetLastCreatedCompanyId } from '@/features/companies/store/companies-ui.slice';
 import { buildEnumOptions } from '@/shared/forms/build-enum-options';
@@ -60,8 +60,6 @@ export function ApplicationFormShell({
 
   const lastCreatedCompanyId = useAppSelector(selectLastCreatedCompanyId);
 
-  const companyDefaultValue = lastCreatedCompanyId ?? initial.companyId;
-
   React.useEffect(() => {
     return () => {
       dispatch(resetLastCreatedCompanyId());
@@ -116,7 +114,8 @@ export function ApplicationFormShell({
                   hasCompanies ? 'Select company' : 'No companies yet'
                 }
                 options={companiesOptions}
-                forceValue={companyDefaultValue}
+                defaultValue={initial.companyId}
+                forceValue={lastCreatedCompanyId || undefined}
                 required
                 selectProps={{ disabled: !hasCompanies }}
                 labelExtra={

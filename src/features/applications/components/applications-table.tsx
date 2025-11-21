@@ -1,4 +1,3 @@
-import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import {
   Table,
@@ -9,22 +8,20 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { ExternalLink } from '@/shared/ui/external-link';
-import type { Application, Company, Currency } from '@prisma/client';
+import type { Currency } from '@prisma/client';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/shared/config/routes.config';
+import { formatEnumLabel } from '@/shared/forms/build-enum-options';
 import { formatDate } from '@/shared/utils/format-date';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { DeleteApplicationButton } from './delete-application-button';
-import { EditApplicationButton } from './edit-application-button';
-
-type ApplicationWithCompany = Application & {
-  company: Pick<Company, 'id' | 'name' | 'website'>;
-};
+import { ApplicationWithRelations } from '../services/application.service';
+import { ApplicationStatusBadge } from './application-status-badge';
+import ApplicationTableActions from './application-table-actions';
 
 type ApplicationsTableProps = {
-  applications: ApplicationWithCompany[];
+  applications: ApplicationWithRelations[];
 };
 
 function formatSalary(
@@ -79,7 +76,7 @@ export function ApplicationsTable({ applications }: ApplicationsTableProps) {
                 <TableHead>Status</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Salary</TableHead>
-                <TableHead>Timeline</TableHead>
+                <TableHead>Applied</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -104,21 +101,21 @@ export function ApplicationsTable({ applications }: ApplicationsTableProps) {
                   </TableCell>
 
                   <TableCell className="font-medium">
-                    {application.role}
+                    <div className="flex flex-col gap-0.5">
+                      <span>{application.role}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {formatEnumLabel(application.seniority)}
+                      </span>
+                    </div>
                   </TableCell>
 
                   <TableCell>
-                    <Badge variant="outline" className="uppercase">
-                      {application.status}
-                    </Badge>
+                    <ApplicationStatusBadge status={application.status} />
                   </TableCell>
 
                   <TableCell className="text-sm text-muted-foreground">
                     <div className="flex flex-col gap-0.5">
                       <span>{application.employmentType}</span>
-                      <span className="text-xs uppercase">
-                        {application.seniority}
-                      </span>
                     </div>
                   </TableCell>
 
@@ -131,27 +128,11 @@ export function ApplicationsTable({ applications }: ApplicationsTableProps) {
                   </TableCell>
 
                   <TableCell className="text-xs text-muted-foreground">
-                    <div className="flex flex-col gap-0.5">
-                      <span>
-                        Applied:{' '}
-                        {formatDate(application.appliedAt) || 'not set'}
-                      </span>
-                      <span>
-                        Last activity:{' '}
-                        {formatDate(application.lastActivityAt) || 'not set'}
-                      </span>
-                    </div>
+                    {formatDate(application.appliedAt) || 'not set'}
                   </TableCell>
 
                   <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <EditApplicationButton application={application} />
-                      <DeleteApplicationButton
-                        id={application.id}
-                        role={application.role}
-                        // companyName={application.company.name}
-                      />
-                    </div>
+                    <ApplicationTableActions application={application} />
                   </TableCell>
                 </TableRow>
               ))}

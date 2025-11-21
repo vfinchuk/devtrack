@@ -2,11 +2,11 @@ import { InternalError } from '@/core/errors';
 import { err, ok, Result } from '@/core/result';
 import { prisma } from '@/server/db/prisma';
 import {
+  ApplicationSeniority,
   ApplicationStatus,
   Currency,
   EmploymentType,
   Prisma,
-  Seniority,
 } from '@prisma/client';
 
 import {
@@ -78,7 +78,7 @@ export async function createApplicationRaw(
         role: dto.role,
 
         status: dto.status ?? ApplicationStatus.APPLIED,
-        seniority: dto.seniority ?? Seniority.MIDDLE,
+        seniority: dto.seniority ?? ApplicationSeniority.MIDDLE,
         employmentType: dto.employmentType ?? EmploymentType.B2B,
 
         source: dto.source ?? null,
@@ -119,7 +119,7 @@ export async function updateApplicationRaw(
         role: rest.role,
 
         status: rest.status ?? ApplicationStatus.APPLIED,
-        seniority: rest.seniority ?? Seniority.MIDDLE,
+        seniority: rest.seniority ?? ApplicationSeniority.MIDDLE,
         employmentType: rest.employmentType ?? EmploymentType.B2B,
 
         source: rest.source ?? null,
