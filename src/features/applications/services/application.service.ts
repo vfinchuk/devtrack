@@ -69,7 +69,7 @@ export async function getApplicationById(
 export async function createApplicationRaw(
   userId: string,
   dto: CreateApplicationDTO,
-): Promise<Result<{ id: string }, InternalError>> {
+): Promise<Result<{ id: string; role: string }, InternalError>> {
   try {
     const created = await prisma.application.create({
       data: {
@@ -94,7 +94,7 @@ export async function createApplicationRaw(
 
         archived: dto.archived ?? false,
       },
-      select: { id: true },
+      select: { id: true, role: true },
     });
 
     return ok(created);

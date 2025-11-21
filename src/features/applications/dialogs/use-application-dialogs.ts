@@ -2,6 +2,7 @@
 
 import { DialogPropsMap } from '@/features/dialogs/dialog.types';
 import { useDialog } from '@/features/dialogs/use-dialog';
+import { notify } from '@/shared/lib/toast';
 import { Application } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { deleteApplication } from '../actions/delete-application.action';
@@ -27,14 +28,15 @@ export function useApplicationDialogs() {
           const res = await deleteApplication(id);
 
           if (!res.ok) {
-            // toast({
-            //   variant: 'destructive',
-            //   title: 'Could not delete application',
-            //   description:
-            //     'Something went wrong while deleting the application. Please try again.',
-            // });
+            notify.error('Could not delete Application', {
+              description:
+                'Something went wrong while deleting the application. Please try again.',
+            });
+
             return;
           }
+
+          notify.success(`Application "${role}" deleted successfully`);
 
           router.refresh();
           closeDialog();

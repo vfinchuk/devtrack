@@ -6,7 +6,9 @@ import { useActionState } from 'react';
 
 import { ApplicationFormShell } from './application-form-shell';
 
+import { isGlobalError } from '@/core';
 import { routes } from '@/shared/config/routes.config';
+import { notify } from '@/shared/lib/toast';
 import { UpdateApplicationState } from '@/types/application';
 import { updateApplication } from '../../actions/update-application.action';
 
@@ -27,9 +29,18 @@ export function EditApplicationForm({
   >(async (_prev, formData) => {
     const res = await updateApplication(_prev, formData);
     if (res?.ok) {
+      notify.success('Application updated successfully');
+
       router.push(routes.applications.details(res.value.id));
       router.refresh();
+
+      return res;
     }
+
+    if (isGlobalError(res.error)) {
+      notify.error(res.error.message);
+    }
+
     return res;
   }, null);
 

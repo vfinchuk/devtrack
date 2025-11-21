@@ -1,6 +1,8 @@
 'use client';
 
+import { isGlobalError } from '@/core';
 import { routes } from '@/shared/config/routes.config';
+import { notify } from '@/shared/lib/toast';
 import { CreateApplicationState } from '@/types/application';
 import {
   ApplicationSeniority,
@@ -29,9 +31,18 @@ export function CreateApplicationForm({
   >(async (_prev, formData) => {
     const res = await createApplication(_prev, formData);
     if (res?.ok) {
+      notify.success(`Application "${res.value.role}" created successfully`);
+
       router.push(routes.applications.details(res.value.id));
       router.refresh();
+
+      return res;
     }
+
+    if (isGlobalError(res.error)) {
+      notify.error(res.error.message);
+    }
+
     return res;
   }, null);
 

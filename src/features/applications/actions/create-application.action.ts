@@ -78,5 +78,5 @@ export async function createApplication(
   }
 
   revalidatePath(routes.applications.root);
-  return ok({ id: res.value.id });
+  return ok({ ...res.value });
 }
