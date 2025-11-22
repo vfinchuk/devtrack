@@ -1,6 +1,5 @@
 'use client';
 
-import { APP_ROUTES, type AppRoute } from '@/shared/config/routes.config';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,7 +7,8 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/shared/ui/layout/breadcrumb';
+} from '@/components/ui/breadcrumb';
+import { APP_ROUTES, type AppRoute } from '@/shared/config/routes.config';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';

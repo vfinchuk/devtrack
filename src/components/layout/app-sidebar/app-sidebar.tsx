@@ -1,6 +1,6 @@
 'use client';
 
-import { ProfileMenu } from '@/components/layout/profile-menu';
+import { ProfileMenu } from '@/components/layout/app-sidebar/profile-menu';
 import { APP_VERSION } from '@/shared/config/app.config';
 import { APP_ROUTES, type AppRoute } from '@/shared/config/routes.config';
 import { useActivePath } from '@/shared/hooks/use-active-path';
